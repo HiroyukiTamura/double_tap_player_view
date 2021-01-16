@@ -1,4 +1,3 @@
-import 'package:double_tap_player_view/view_model/double_tap_model.dart';
 import 'package:flutter/material.dart';
 
 /// Clip widget in oval shape at right side
@@ -13,12 +12,11 @@ class OvalLeftBorderClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     var path = Path();
     path.lineTo(0, 0);
-    path.lineTo(size.width - curveHeight, 0);
-    path.quadraticBezierTo(
-        size.width, size.height / 4, size.width, size.height / 2);
-    path.quadraticBezierTo(size.width, size.height - (size.height / 4),
-        size.width - curveHeight, size.height);
-    path.lineTo(0, size.height);
+    path.lineTo(curveHeight, 0);
+    path.quadraticBezierTo(0, size.height / 4, 0, size.height / 2);
+    path.quadraticBezierTo(0, size.height - (size.height / 4), curveHeight, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
     return path;
   }
 
