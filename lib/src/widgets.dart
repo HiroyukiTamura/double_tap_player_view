@@ -1,12 +1,13 @@
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_left_border_clipper.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_right_border_clipper.dart';
-import 'package:double_tap_player_view/src/view_model/double_tap_model.dart';
-import 'package:double_tap_player_view/src/view_model/double_tap_view_model.dart';
+import 'package:double_tap_player_view/src/model/double_tap_model.dart';
+import 'package:double_tap_player_view/src/double_tap_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'model/lr.dart';
 
 typedef TapCountWidgetBuilder = Widget Function(Lr lr, int tapCount);
 

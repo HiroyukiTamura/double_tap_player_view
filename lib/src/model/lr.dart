@@ -1,0 +1,1 @@
+enum Lr { RIGHT, LEFT }

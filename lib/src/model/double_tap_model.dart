@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
+import 'lr.dart';
 
 part 'double_tap_model.freezed.dart';
 
@@ -50,5 +51,3 @@ abstract class ViewModelConfig with _$ViewModelConfig {
 extension PositionX on Position {
   Offset toOffset() => Offset(x, y);
 }
-
-enum Lr { RIGHT, LEFT }
