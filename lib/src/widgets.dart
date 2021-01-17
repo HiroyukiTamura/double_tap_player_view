@@ -44,6 +44,7 @@ class DoubleTapPlayerView extends StatelessWidget {
     this.textBuilder,
     this.textStyle = const TextStyle(color: Colors.white),
     this.child,
+    this.onDoubleTap,
   })  : vmConfL = ViewModelConfig(
           lr: Lr.LEFT,
           ignoreRangeFromCenter: ignoreCenterWidth / 2,
@@ -77,6 +78,7 @@ class DoubleTapPlayerView extends StatelessWidget {
   final double curveBank;
   final Color ovalColor;
   final Color rippleColor;
+  final GestureTapCallback onDoubleTap;
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -146,6 +148,8 @@ class DoubleTapPlayerView extends StatelessWidget {
     final vmConf = lastTapTimeL < lastTapTimeR ? vmConfR : vmConfL;
 
     context.read(_kPrvViewModel(vmConf)).notifyTap(constraints.maxWidth);
+    if (onDoubleTap != null)
+      onDoubleTap();
   }
 }
 
