@@ -97,8 +97,7 @@ class DoubleTapPlayerView extends StatelessWidget {
                 ovalColor: ovalColor,
                 textBuilder: textBuilder,
                 textStyle: textStyle,
-                iconLeft: iconLeft,
-                iconRight: iconRight,
+                icon: iconLeft,
               ),
               _DoubleTapAnimated(
                 vmConf: vmConfR,
@@ -111,8 +110,7 @@ class DoubleTapPlayerView extends StatelessWidget {
                 ovalColor: ovalColor,
                 textBuilder: textBuilder,
                 textStyle: textStyle,
-                iconLeft: iconLeft,
-                iconRight: iconRight,
+                icon: iconRight,
               )
             ],
           ),
@@ -148,8 +146,7 @@ class DoubleTapPlayerView extends StatelessWidget {
     final vmConf = lastTapTimeL < lastTapTimeR ? vmConfR : vmConfL;
 
     context.read(_kPrvViewModel(vmConf)).notifyTap(constraints.maxWidth);
-    if (onDoubleTap != null)
-      onDoubleTap();
+    if (onDoubleTap != null) onDoubleTap();
   }
 }
 
@@ -163,8 +160,7 @@ class _DoubleTapAnimated extends StatefulHookWidget {
     @required this.curveBank,
     @required this.ovalColor,
     @required this.rippleColor,
-    @required this.iconRight,
-    @required this.iconLeft,
+    @required this.icon,
     @required this.textBuilder,
     @required this.textStyle,
     Key key,
@@ -175,8 +171,7 @@ class _DoubleTapAnimated extends StatefulHookWidget {
   final Duration rippleExpansionTime;
   final Duration expansionHoldingTime;
   final Duration fadeTime;
-  final Icon iconRight;
-  final Icon iconLeft;
+  final Icon icon;
   final TextBuilder textBuilder;
   final TextStyle textStyle;
   final double curveBank;
@@ -251,8 +246,7 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
                     builder: widget.builder,
                     ovalColor: widget.ovalColor,
                     textBuilder: widget.textBuilder,
-                    iconRight: widget.iconRight,
-                    iconLeft: widget.iconLeft,
+                    icon: widget.icon,
                     textStyle: widget.textStyle,
                   ),
                 ],
@@ -263,8 +257,7 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
       );
 
   Future<void> _onChange(BuildContext context, String value) async {
-    if (value == null)
-      return;
+    if (value == null) return;
 
     if (_animationController.status == AnimationStatus.completed)
       _animationController.reset();
@@ -290,16 +283,14 @@ class _IconWithShade extends HookWidget {
     @required this.ovalColor,
     @required this.vmConf,
     @required this.builder,
-    @required this.iconRight,
-    @required this.iconLeft,
+    @required this.icon,
     @required this.textBuilder,
     @required this.textStyle,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
   final TapCountWidgetBuilder builder;
-  final Icon iconRight;
-  final Icon iconLeft;
+  final Icon icon;
   final TextBuilder textBuilder;
   final TextStyle textStyle;
   final Color ovalColor;
@@ -313,8 +304,7 @@ class _IconWithShade extends HookWidget {
             ? _DefaultChild(
                 vmConf: vmConf,
                 textStyle: textStyle,
-                iconLeft: iconLeft,
-                iconRight: iconRight,
+                icon: icon,
                 textBuilder: textBuilder,
               )
             : _CustomChild(
@@ -346,15 +336,13 @@ class _DefaultChild extends StatelessWidget {
   const _DefaultChild({
     Key key,
     @required this.vmConf,
-    @required this.iconRight,
-    @required this.iconLeft,
+    @required this.icon,
     @required this.textBuilder,
     @required this.textStyle,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
-  final Icon iconRight;
-  final Icon iconLeft;
+  final Icon icon;
   final TextBuilder textBuilder;
   final TextStyle textStyle;
 
@@ -365,7 +353,7 @@ class _DefaultChild extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: _TEXT_H),
-          if (vmConf.lr == Lr.LEFT) iconLeft else iconRight,
+          icon,
           _DefaultChildText(
             vmConf: vmConf,
             textStyle: textStyle,
