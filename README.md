@@ -1,14 +1,14 @@
 # double_tap_player_view
 
-Created to handle fast forward/rewind behavior by double tap and horizontal drag like a video player.
+Created to handle fast forward/rewind behavior by double tap and horizontal drag like a video player.  
 This plugin is inspired to [DoubleTapPlayerView](https://github.com/vkay94/DoubleTapPlayerView).
 
 # Sample
-
+![sample_screenshot](https://github.com/HiroyukTamura/double_tap_player_view/blob/master/image/sample_screenshot.gif)
 
 # Requirement
-This plugin depends [riverpod](https://github.com/rrousselgit/river_pod).
-you must wrap root widget with ProviderScope to use.
+This plugin depends [riverpod](https://github.com/rrousselgit/river_pod).  
+you must wrap root widget with `ProviderScope` to use.
 
 ```dart
 void main() {
@@ -20,7 +20,7 @@ void main() {
 ```dart
 DoubleTapPlayerView(
   doubleTapConfig: DoubleTapConfig.create(
-    ignoreCenterWidth: 128,
+    ignoreCenterWidth: 128, // width of the zone which the double tap event is not fired in center
     iconLeft: Icon(
       Icons.fast_rewind,
       color: Colors.white,
@@ -31,7 +31,7 @@ DoubleTapPlayerView(
       color: Colors.white,
       size: 40,
     ),
-    curveBank: 40,
+    curveBank: 40, // height of the oval curve bank
     ovalColor: Colors.white30,
     rippleColor: Colors.white30,
     rippleExpansionTime: const Duration(milliseconds: 400),
@@ -43,11 +43,11 @@ DoubleTapPlayerView(
     onDoubleTap: () {},
   ),
   swipeConfig: SwipeConfig.create(
-    overlayBuilder: _overlay,
-    onDragEnd: (SwipeData data) {},
+    @required  overlayBuilder: _overlay,
+    onSwipeEnd: (SwipeData data) {},
     backDrop: Colors.black45,
   ),
-  child: VideoPlayer(_controller),
+  child: Container(),
 );
 ```
 
