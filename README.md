@@ -66,7 +66,9 @@ DoubleTapPlayerView(
   ),
   swipeConfig: SwipeConfig.create(
     // type: `Widget Function(SwipeData data)` SwipeData has dx when drag starts and current dragging dx.
-    @required  overlayBuilder: _overlay, 
+    @required  overlayBuilder: _overlay,
+    onSwipeStart: (double dx) {}
+    onSwipeCancel: (){}
     onSwipeEnd: (SwipeData data) {},
     backDrop: Colors.black45,
   ),

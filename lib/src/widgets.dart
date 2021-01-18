@@ -8,6 +8,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'model/lr.dart';
 import 'model/swipe_data.dart';
 
+/// Signature of callback that have horizontal tap position
+typedef OnDragStartCallback = void Function(double dx);
+
 /// Signature of callback that have [SwipeData]
 typedef OnDragCallback = void Function(SwipeData data);
 
@@ -104,13 +107,21 @@ class DoubleTapPlayerView extends StatelessWidget {
     if (doubleTapConfig.onDoubleTap != null) doubleTapConfig.onDoubleTap();
   }
 
-  void _onDragStart(BuildContext context, DragStartDetails details) =>
-      context.read(kPrvDragVm).setStart(details.globalPosition.dx);
+  void _onDragStart(BuildContext context, DragStartDetails details) {
+    final dx = details.globalPosition.dx;
+    context.read(kPrvDragVm).setStart(dx);
+    if (swipeConfig.onDragStart != null)
+      swipeConfig.onDragStart(dx);
+  }
 
   void _onDragUpdate(BuildContext context, DragUpdateDetails details) =>
       context.read(kPrvDragVm).update(details.globalPosition.dx);
 
-  void _onDragCancel(BuildContext context) => context.read(kPrvDragVm).clear();
+  void _onDragCancel(BuildContext context) {
+    context.read(kPrvDragVm).clear();
+    if (swipeConfig.onDragCancel != null)
+      swipeConfig.onDragCancel();
+  }
 
   void _onDragEnd(BuildContext context, DragEndDetails details) {
     final data = context.read(kPrvDragVm.state).data.copyWith();
