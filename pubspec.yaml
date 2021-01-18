@@ -12,8 +12,7 @@ dependencies:
     sdk: flutter
   flutter_hooks: ^0.15.0
   hooks_riverpod: ^0.12.2
-  after_layout: ^1.0.7+2
-  uuid: 2.2.2
+  uuid: ^2.2.2
   freezed_annotation: ^0.12.0
   circular_reveal_animation: ^1.1.5
 
