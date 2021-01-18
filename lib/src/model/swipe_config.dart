@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../double_tap_player_view.dart';
 
-typedef SwipeOverlayBuilder = Widget Function(SwipeData data);
-
+/// widget config for [DoubleTapPlayerView] about horizontal swipe event
 class SwipeConfig {
   final OnDragCallback onDragEnd;
   final SwipeOverlayBuilder overlayBuilder;
@@ -15,6 +14,8 @@ class SwipeConfig {
     this.backDrop = Colors.black45,
   });
 
+  /// factory constructor of [SwipeConfig].
+  /// [SwipeConfig] is the widget config for [DoubleTapPlayerView] about horizontal swipe event
   factory SwipeConfig.create({
     OnDragCallback onSwipeEnd,
     @required SwipeOverlayBuilder overlayBuilder,

@@ -3,6 +3,7 @@ import 'package:double_tap_player_view/src/border_clipper/oval_left_border_clipp
 import 'package:double_tap_player_view/src/border_clipper/oval_right_border_clipper.dart';
 import 'package:double_tap_player_view/src/model/double_tap_model.dart';
 import 'package:double_tap_player_view/src/ui/horizontal_drag_detector.dart';
+import 'package:double_tap_player_view/src/viewmodel/double_tap_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -12,8 +13,12 @@ import '../../double_tap_player_view.dart';
 import '../model/double_tap_config.dart';
 import '../widgets.dart';
 
+final kPrvDoubleTapVm = StateNotifierProvider.autoDispose
+    .family<DoubleTapViewModel, ViewModelConfig>(
+        (ref, conf) => DoubleTapViewModel(conf));
+
 final _pDoubleTapEvent = Provider.autoDispose.family<String, ViewModelConfig>(
-    (ref, ltr) => ref.watch(kPrvViewModel(ltr).state).doubleTapEventKey);
+    (ref, ltr) => ref.watch(kPrvDoubleTapVm(ltr).state).doubleTapEventKey);
 
 class DoubleTapWidget extends HookWidget {
   const DoubleTapWidget({
@@ -143,7 +148,7 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
                 children: [
                   CircularRevealAnimation(
                     animation: _animation,
-                    centerOffset: useProvider(kPrvViewModel(widget.vmConf)
+                    centerOffset: useProvider(kPrvDoubleTapVm(widget.vmConf)
                         .state
                         .select((it) => it.lastTap))?.toOffset(),
                     child: SizedBox.expand(
@@ -184,7 +189,7 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
       _fadeController.reset();
       // ignore: empty_catches
     } on TickerCanceled {}
-    context.read(kPrvViewModel(widget.vmConf)).notifyHideWidget(value);
+    context.read(kPrvDoubleTapVm(widget.vmConf)).notifyHideWidget(value);
   }
 }
 
@@ -238,7 +243,7 @@ class _CustomChild extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final continuesTapTime = useProvider(
-        kPrvViewModel(vmConf).state.select((it) => it.continuesTapTime));
+        kPrvDoubleTapVm(vmConf).state.select((it) => it.continuesTapTime));
     return builder(vmConf.lr, continuesTapTime);
   }
 }
@@ -289,7 +294,7 @@ class _DefaultChildText extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final tapCount = useProvider(
-        kPrvViewModel(vmConf).state.select((it) => it.continuesTapTime));
+        kPrvDoubleTapVm(vmConf).state.select((it) => it.continuesTapTime));
     final text = textBuilder == null
         ? '${tapCount * 10} sec'
         : textBuilder(vmConf.lr, tapCount);

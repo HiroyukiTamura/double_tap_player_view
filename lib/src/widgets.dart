@@ -1,25 +1,27 @@
 import 'package:double_tap_player_view/src/model/double_tap_config.dart';
-import 'package:double_tap_player_view/src/model/double_tap_model.dart';
 import 'package:double_tap_player_view/src/ui/double_tap_animated.dart';
-import 'package:double_tap_player_view/src/viewmodel/double_tap_view_model.dart';
 import 'package:double_tap_player_view/src/model/swipe_config.dart';
 import 'package:double_tap_player_view/src/ui/horizontal_drag_detector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'model/lr.dart';
-import 'model/swipe_model.dart';
+import 'model/swipe_data.dart';
 
+/// Signature of callback that have [SwipeData]
 typedef OnDragCallback = void Function(SwipeData data);
 
+/// Signature of widget creation from tap count and L/R
 typedef TapCountWidgetBuilder = Widget Function(Lr lr, int tapCount);
 
+/// Signature of string creation from tap count and L/R
 typedef TextBuilder = String Function(Lr lr, int tapCount);
 
-final kPrvViewModel = StateNotifierProvider.autoDispose
-    .family<DoubleTapViewModel, ViewModelConfig>(
-        (ref, conf) => DoubleTapViewModel(conf));
+/// Signature of widget creation from [SwipeData]
+typedef SwipeOverlayBuilder = Widget Function(SwipeData data);
 
+/// widget to detect double tap and horizontal drag.
+/// this widget is usual to handle fast forward/rewind behavior like a video player.
 class DoubleTapPlayerView extends StatelessWidget {
   DoubleTapPlayerView({
     Key key,
@@ -86,19 +88,19 @@ class DoubleTapPlayerView extends StatelessWidget {
         ? details.localPosition.dx
         : details.localPosition.dx - centerX;
     final dy = details.localPosition.dy;
-    context.read(kPrvViewModel(vmConf)).noteTapPosition(dx, dy);
+    context.read(kPrvDoubleTapVm(vmConf)).noteTapPosition(dx, dy);
   }
 
   void _onDoubleTap(BuildContext context, BoxConstraints constraints) {
     final lastTapTimeL =
-        context.read(kPrvViewModel(doubleTapConfig.vmConfL).state).lastTapTime;
+        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfL).state).lastTapTime;
     final lastTapTimeR =
-        context.read(kPrvViewModel(doubleTapConfig.vmConfR).state).lastTapTime;
+        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfR).state).lastTapTime;
     final vmConf = lastTapTimeL < lastTapTimeR
         ? doubleTapConfig.vmConfR
         : doubleTapConfig.vmConfL;
 
-    context.read(kPrvViewModel(vmConf)).notifyTap(constraints.maxWidth);
+    context.read(kPrvDoubleTapVm(vmConf)).notifyTap(constraints.maxWidth);
     if (doubleTapConfig.onDoubleTap != null) doubleTapConfig.onDoubleTap();
   }
 

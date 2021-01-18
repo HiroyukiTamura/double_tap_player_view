@@ -1,10 +1,11 @@
-import 'package:double_tap_player_view/src/model/swipe_model.dart';
+import 'package:double_tap_player_view/src/model/double_tap_model.dart';
 import 'package:double_tap_player_view/src/viewmodel/swipe_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../double_tap_player_view.dart';
+import 'double_tap_animated.dart';
 
 final kPrvDragVm =
     StateNotifierProvider<SwipeViewModel>((ref) => SwipeViewModel());
@@ -21,8 +22,8 @@ class _ConfPair {
 
 final _kPrvDoubleTapVis = Provider.autoDispose.family<bool, _ConfPair>((ref,
         confPair) =>
-    ref.watch(kPrvViewModel(confPair.vmConfL).state).continuesTapTime != 0 ||
-    ref.watch(kPrvViewModel(confPair.vmConfR).state).continuesTapTime != 0);
+    ref.watch(kPrvDoubleTapVm(confPair.vmConfL).state).continuesTapTime != 0 ||
+    ref.watch(kPrvDoubleTapVm(confPair.vmConfR).state).continuesTapTime != 0);
 
 class DragOverlayWrapper extends HookWidget {
   DragOverlayWrapper({

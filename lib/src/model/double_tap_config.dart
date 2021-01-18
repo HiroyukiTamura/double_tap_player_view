@@ -6,6 +6,7 @@ import 'double_tap_model.dart';
 import '../widgets.dart';
 import 'package:flutter/widgets.dart';
 
+/// widget config for [DoubleTapPlayerView] about double tap event
 class DoubleTapConfig {
   final ViewModelConfig vmConfL;
   final ViewModelConfig vmConfR;
@@ -39,6 +40,8 @@ class DoubleTapConfig {
     @required this.onDoubleTap,
   });
 
+  /// factory constructor of [DoubleTapConfig].
+  /// [DoubleTapConfig] is widget config for [DoubleTapPlayerView] about double tap event
   factory DoubleTapConfig.create({
     double ignoreCenterWidth = 128,
     Icon iconRight = const Icon(
