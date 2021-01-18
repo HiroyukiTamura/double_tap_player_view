@@ -1,6 +1,6 @@
 name: double_tap_player_view
 description: a widget to handle fast forward/rewind behavior by double tap and horizontal drag like a video player.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/HiroyukTamura/double_tap_player_view
 repository: https://github.com/HiroyukTamura/double_tap_player_view
 
