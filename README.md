@@ -1,5 +1,7 @@
 # double_tap_player_view
 
+[![pub package](https://img.shields.io/pub/v/double_tap_player_view.svg)](https://pub.dev/packages/double_tap_player_view)
+
 Created to handle fast forward/rewind behavior by double tap and horizontal drag like a video player.  
 This plugin is inspired to [DoubleTapPlayerView](https://github.com/vkay94/DoubleTapPlayerView).
 
