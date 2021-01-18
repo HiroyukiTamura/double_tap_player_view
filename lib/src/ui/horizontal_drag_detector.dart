@@ -9,7 +9,7 @@ import '../../double_tap_player_view.dart';
 final kPrvDragVm =
     StateNotifierProvider<SwipeViewModel>((ref) => SwipeViewModel());
 
-final _kPrvIsDragging =
+final kPrvIsDragging =
     Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm.state).isDragging);
 
 class _ConfPair {
@@ -29,16 +29,18 @@ class DragOverlayWrapper extends HookWidget {
     Key key,
     @required this.overlayBuilder,
     @required this.backDrop,
+    @required this.enableDoubleTap,
     @required ViewModelConfig vmConfR,
     @required ViewModelConfig vmConfL,
   })  : _confPair = _ConfPair(vmConfL, vmConfR),
         super(key: key);
 
   final _ConfPair _confPair;
+  final enableDoubleTap;
 
   @override
   Widget build(BuildContext context) => Visibility(
-        visible: !useProvider(_kPrvDoubleTapVis(_confPair)),
+        visible: enableDoubleTap ? !useProvider(_kPrvDoubleTapVis(_confPair)) : true,
         child: DragOverlay(
           overlayBuilder: overlayBuilder,
           backDrop: backDrop,
@@ -85,21 +87,21 @@ class DragOverlayState extends State<DragOverlay>
 
   @override
   void dispose() {
-    super.dispose();
     _ac.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => ProviderListener(
         onChange: _onChange,
-        provider: _kPrvIsDragging,
+        provider: kPrvIsDragging,
         child: FadeTransition(
           opacity: _animation,
           child: Container(
             height: double.infinity,
             width: double.infinity,
             color: widget.backDrop,
-            child: DragOverlayContentWrapper(
+            child: _DragOverlayContentWrapper(
               overlayBuilder: widget.overlayBuilder,
             ),
           ),
@@ -116,14 +118,14 @@ class DragOverlayState extends State<DragOverlay>
   }
 }
 
-class DragOverlayContentWrapper extends HookWidget {
-  const DragOverlayContentWrapper({@required this.overlayBuilder});
+class _DragOverlayContentWrapper extends HookWidget {
+  const _DragOverlayContentWrapper({@required this.overlayBuilder});
 
   final SwipeOverlayBuilder overlayBuilder;
 
   @override
   Widget build(BuildContext context) => Visibility(
-        visible: useProvider(kPrvDragVm.state.select((it) => it.isDragging)),
+        visible: useProvider(kPrvIsDragging),
         child: _OverlayWidget(
           overlayBuilder: overlayBuilder,
         ),

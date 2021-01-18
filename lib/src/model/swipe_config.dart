@@ -11,20 +11,17 @@ class SwipeConfig {
 
   SwipeConfig._({
     this.onDragEnd,
-    this.overlayBuilder,
+    @required this.overlayBuilder,
     this.backDrop = Colors.black45,
   });
 
   factory SwipeConfig.create({
     OnDragCallback onDragEnd,
-    SwipeOverlayBuilder overlayBuilder,
+    @required SwipeOverlayBuilder overlayBuilder,
     Color backDrop = Colors.black45,
   }) => SwipeConfig._(
       onDragEnd: onDragEnd,
-      overlayBuilder: overlayBuilder ??
-          (data) {
-            return Container();
-          },
+      overlayBuilder: overlayBuilder,
       backDrop: backDrop,
     );
 }

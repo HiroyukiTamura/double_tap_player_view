@@ -19,16 +19,18 @@ class DoubleTapWidget extends HookWidget {
   const DoubleTapWidget({
     Key key,
     @required this.config,
+    @required this.enabledDrag,
   }) : super(key: key);
 
   final DoubleTapConfig config;
+  final bool enabledDrag;
 
   @override
   Widget build(BuildContext context) => Visibility(
     visible: useProvider(kPrvDragVm.state.select((it) => !it.isDragging)),
     child: Row(
           children: [
-            DoubleTapAnimated(
+            _DoubleTapAnimated(
               vmConf: config.vmConfL,
               builder: config.customWidgetBuilder,
               rippleExpansionTime: config.rippleExpansionTime,
@@ -37,11 +39,11 @@ class DoubleTapWidget extends HookWidget {
               curveBank: config.curveBank,
               rippleColor: config.rippleColor,
               ovalColor: config.ovalColor,
-              textBuilder: config.textBuilder,
-              textStyle: config.textStyle,
+              labelBuilder: config.labelBuilder,
+              labelStyle: config.labelStyle,
               icon: config.iconLeft,
             ),
-            DoubleTapAnimated(
+            _DoubleTapAnimated(
               vmConf: config.vmConfR,
               builder: config.customWidgetBuilder,
               rippleExpansionTime: config.rippleExpansionTime,
@@ -50,8 +52,8 @@ class DoubleTapWidget extends HookWidget {
               curveBank: config.curveBank,
               rippleColor: config.rippleColor,
               ovalColor: config.ovalColor,
-              textBuilder: config.textBuilder,
-              textStyle: config.textStyle,
+              labelBuilder: config.labelBuilder,
+              labelStyle: config.labelStyle,
               icon: config.iconRight,
             )
           ],
@@ -59,8 +61,8 @@ class DoubleTapWidget extends HookWidget {
   );
 }
 
-class DoubleTapAnimated extends StatefulHookWidget {
-  const DoubleTapAnimated({
+class _DoubleTapAnimated extends StatefulHookWidget {
+  const _DoubleTapAnimated({
     @required this.vmConf,
     @required this.builder,
     @required this.rippleExpansionTime,
@@ -70,8 +72,8 @@ class DoubleTapAnimated extends StatefulHookWidget {
     @required this.ovalColor,
     @required this.rippleColor,
     @required this.icon,
-    @required this.textBuilder,
-    @required this.textStyle,
+    @required this.labelBuilder,
+    @required this.labelStyle,
     Key key,
   }) : super(key: key);
 
@@ -81,17 +83,17 @@ class DoubleTapAnimated extends StatefulHookWidget {
   final Duration expansionHoldingTime;
   final Duration fadeTime;
   final Icon icon;
-  final TextBuilder textBuilder;
-  final TextStyle textStyle;
+  final TextBuilder labelBuilder;
+  final TextStyle labelStyle;
   final double curveBank;
   final Color ovalColor;
   final Color rippleColor;
 
   @override
-  DoubleTapAnimatedState createState() => DoubleTapAnimatedState();
+  _DoubleTapAnimatedState createState() => _DoubleTapAnimatedState();
 }
 
-class DoubleTapAnimatedState extends State<DoubleTapAnimated>
+class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
     with TickerProviderStateMixin {
   AnimationController _animationController;
   AnimationController _fadeController;
@@ -121,9 +123,9 @@ class DoubleTapAnimatedState extends State<DoubleTapAnimated>
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
     _fadeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -154,9 +156,9 @@ class DoubleTapAnimatedState extends State<DoubleTapAnimated>
                     vmConf: widget.vmConf,
                     builder: widget.builder,
                     ovalColor: widget.ovalColor,
-                    textBuilder: widget.textBuilder,
+                    textBuilder: widget.labelBuilder,
                     icon: widget.icon,
-                    textStyle: widget.textStyle,
+                    textStyle: widget.labelStyle,
                   ),
                 ],
               ),

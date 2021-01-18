@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(
-        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
       ..initialize().then((_) => setState(() {}));
   }
 
@@ -33,21 +33,22 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-          home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: DoubleTapPlayerView(
-              doubleTapConfig: DoubleTapConfig.create(),
-              swipeConfig: SwipeConfig.create(overlayBuilder: _overlay),
-              child: VideoPlayer(_controller),
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Plugin example app'),
+          ),
+          body: Center(
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: DoubleTapPlayerView(
+                doubleTapConfig: DoubleTapConfig.create(),
+                swipeConfig: SwipeConfig.create(overlayBuilder: _overlay),
+                child: VideoPlayer(_controller),
+              ),
             ),
           ),
         ),
-      ));
+      );
 
   @override
   void afterFirstLayout(BuildContext context) => _controller.play();

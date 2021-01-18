@@ -26,11 +26,15 @@ class DoubleTapPlayerView extends StatelessWidget {
     this.doubleTapConfig,
     this.child,
     this.swipeConfig,
-  }) : assert(doubleTapConfig != null || swipeConfig != null);
+  })  : enabledDoubleTap = doubleTapConfig != null,
+        enabledSwipe = swipeConfig != null;
 
   final DoubleTapConfig doubleTapConfig;
   final SwipeConfig swipeConfig;
   final Widget child;
+
+  final bool enabledDoubleTap;
+  final bool enabledSwipe;
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -40,25 +44,29 @@ class DoubleTapPlayerView extends StatelessWidget {
             builder: (context, constrains) => SizedBox.expand(
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onDoubleTapDown: (details) =>
-                    _onDoubleTapDown(context, constrains, details),
-                onDoubleTap: () => _onDoubleTap(context, constrains),
-                onHorizontalDragStart: (details) =>
-                    _onDragStart(context, details),
-                onHorizontalDragUpdate: (details) =>
-                    _onDragUpdate(context, details),
-                onHorizontalDragCancel: () => _onDragCancel(context),
-                onHorizontalDragEnd: (details) => _onDragEnd(context, details),
+                onDoubleTapDown: enabledDoubleTap ? (details) =>
+                    _onDoubleTapDown(context, constrains, details) : null,
+                onDoubleTap: enabledDoubleTap ? () => _onDoubleTap(context, constrains) : null,
+                onHorizontalDragStart: enabledSwipe ? (details) =>
+                    _onDragStart(context, details) : null,
+                onHorizontalDragUpdate: enabledSwipe ? (details) =>
+                    _onDragUpdate(context, details) : null,
+                onHorizontalDragCancel: enabledSwipe ? () => _onDragCancel(context) : null,
+                onHorizontalDragEnd: enabledSwipe ? (details) => _onDragEnd(context, details) : null,
                 child: Stack(
                   children: [
-                    if (doubleTapConfig != null)
-                      DoubleTapWidget(config: doubleTapConfig),
-                    if (swipeConfig != null)
+                    if (enabledDoubleTap)
+                      DoubleTapWidget(
+                        config: doubleTapConfig,
+                        enabledDrag: enabledSwipe,
+                      ),
+                    if (enabledSwipe)
                       DragOverlayWrapper(
                         backDrop: swipeConfig.backDrop,
                         overlayBuilder: swipeConfig.overlayBuilder,
                         vmConfR: doubleTapConfig.vmConfR,
                         vmConfL: doubleTapConfig.vmConfL,
+                        enableDoubleTap: enabledDoubleTap,
                       ),
                   ],
                 ),

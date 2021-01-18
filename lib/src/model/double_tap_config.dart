@@ -12,8 +12,8 @@ class DoubleTapConfig {
   final TapCountWidgetBuilder customWidgetBuilder;
   final Icon iconRight;
   final Icon iconLeft;
-  final TextBuilder textBuilder;
-  final TextStyle textStyle;
+  final TextBuilder labelBuilder;
+  final TextStyle labelStyle;
   final Duration rippleExpansionTime;
   final Duration expansionHoldingTime;
   final Duration fadeTime;
@@ -28,8 +28,8 @@ class DoubleTapConfig {
     @required this.customWidgetBuilder,
     @required this.iconRight,
     @required this.iconLeft,
-    @required this.textBuilder,
-    @required this.textStyle,
+    @required this.labelStyle,
+    @required this.labelBuilder,
     @required this.rippleExpansionTime,
     @required this.expansionHoldingTime,
     @required this.fadeTime,
@@ -58,8 +58,8 @@ class DoubleTapConfig {
     Duration expansionHoldingTime = const Duration(milliseconds: 200),
     Duration fadeTime = const Duration(milliseconds: 100),
     TapCountWidgetBuilder customWidgetBuilder,
-    TextBuilder textBuilder,
-    TextStyle textStyle = const TextStyle(color: Colors.white),
+    TextBuilder labelBuilder,
+    TextStyle labelStyle = const TextStyle(color: Colors.white),
     GestureTapCallback onDoubleTap,
   }) {
     assert(0 <= curveBank);
@@ -67,8 +67,8 @@ class DoubleTapConfig {
       assert(
           iconRight == null &&
               iconLeft == null &&
-              textBuilder == null &&
-              textStyle == null,
+              labelBuilder == null &&
+              labelStyle == null,
           'if customWidgetBuilder is not null, iconRight, iconLeft, textBuilder and textStyle must be null.');
     return DoubleTapConfig._(
       vmConfL: ViewModelConfig(
@@ -82,8 +82,8 @@ class DoubleTapConfig {
       customWidgetBuilder: customWidgetBuilder,
       iconRight: iconRight,
       iconLeft: iconLeft,
-      textBuilder: textBuilder,
-      textStyle: textStyle,
+      labelBuilder: labelBuilder,
+      labelStyle: labelStyle,
       rippleExpansionTime: rippleExpansionTime,
       expansionHoldingTime: expansionHoldingTime,
       fadeTime: fadeTime,
