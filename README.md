@@ -6,7 +6,18 @@ This plugin is inspired to [DoubleTapPlayerView](https://github.com/vkay94/Doubl
 # Sample
 ![sample_screenshot](https://github.com/HiroyukTamura/double_tap_player_view/blob/master/image/sample_screenshot.gif)
 
-# Requirement
+# Supported platforms
+- Flutter Android
+- Flutter iOS
+- Flutter web
+- Flutter desktop
+
+# Installation
+Add carousel_slider: ^2.3.1 to your pubspec.yaml dependencies. And import it:
+
+`import 'package:carousel_slider/carousel_slider.dart';`
+
+# How to use
 This plugin depends [riverpod](https://github.com/rrousselgit/river_pod).  
 you must wrap root widget with `ProviderScope` to use.
 
@@ -15,6 +26,16 @@ void main() {
  runApp(ProviderScope(child: MyApp()));
 }
 ```
+
+Simply create a doubleTapPlayerView widget, and pass the required params:
+```dart
+DoubleTapPlayerView(
+  doubleTapConfig: DoubleTapConfig.create(),
+  swipeConfig: SwipeConfig.create(overlayBuilder: (SwipeData data) => Text(data.toString())),
+  child: VideoPlayer(_controller),
+),
+```
+
 
 # Params
 ```dart
@@ -37,13 +58,15 @@ DoubleTapPlayerView(
     rippleExpansionTime: const Duration(milliseconds: 400),
     expansionHoldingTime: const Duration(milliseconds: 200),
     fadeTime: const Duration(milliseconds: 100),
-    customWidgetBuilder: (lr, tapCount) => Container(),
-    labelBuilder: (lr, tapCount) => '',
+    // if provide [customWidgetBuilder], [ovalColor], [rippleColor], [labelBuilder], [labelStyle] must be null
+    customWidgetBuilder: null, // type: Widget Function(Lr lr, int tapCount)
+    labelBuilder: null, // type: `Widget Function(Lr lr, int tapCount)`
     labelStyle: const TextStyle(color: Colors.white),
-    onDoubleTap: () {},
+    onDoubleTap: null, // type: `void Function()`
   ),
   swipeConfig: SwipeConfig.create(
-    @required  overlayBuilder: _overlay,
+    // type: `Widget Function(SwipeData data)` SwipeData has dx when drag starts and current dragging dx.
+    @required  overlayBuilder: _overlay, 
     onSwipeEnd: (SwipeData data) {},
     backDrop: Colors.black45,
   ),
@@ -52,6 +75,8 @@ DoubleTapPlayerView(
 ```
 
 # example
+
+this example shows the [sample screenshot](https://github.com/HiroyukTamura/double_tap_player_view#sample).
 
 ```dart
 void main() {
