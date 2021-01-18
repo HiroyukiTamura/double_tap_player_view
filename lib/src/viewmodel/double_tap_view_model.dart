@@ -1,7 +1,7 @@
 
 import 'package:hooks_riverpod/all.dart';
-import 'model/lr.dart';
-import 'model/double_tap_model.dart';
+import '../model/lr.dart';
+import '../model/double_tap_model.dart';
 
 class DoubleTapViewModel extends StateNotifier<DoubleTapState> {
   DoubleTapViewModel(this.config) : super(DoubleTapState.initial());
