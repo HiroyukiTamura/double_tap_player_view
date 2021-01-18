@@ -13,9 +13,9 @@ This plugin is inspired to [DoubleTapPlayerView](https://github.com/vkay94/Doubl
 - Flutter desktop
 
 # Installation
-Add carousel_slider: ^2.3.1 to your pubspec.yaml dependencies. And import it:
+Add double_tap_player_view: ^1.0.2 to your pubspec.yaml dependencies. And import it:
 
-`import 'package:carousel_slider/carousel_slider.dart';`
+`import 'package:double_tap_player_view/double_tap_player_view.dart';`
 
 # How to use
 This plugin depends [riverpod](https://github.com/rrousselgit/river_pod).  
