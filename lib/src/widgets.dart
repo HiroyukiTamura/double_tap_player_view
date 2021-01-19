@@ -49,15 +49,24 @@ class DoubleTapPlayerView extends StatelessWidget {
             builder: (context, constrains) => SizedBox.expand(
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onDoubleTapDown: enabledDoubleTap ? (details) =>
-                    _onDoubleTapDown(context, constrains, details) : null,
-                onDoubleTap: enabledDoubleTap ? () => _onDoubleTap(context, constrains) : null,
-                onHorizontalDragStart: enabledSwipe ? (details) =>
-                    _onDragStart(context, details) : null,
-                onHorizontalDragUpdate: enabledSwipe ? (details) =>
-                    _onDragUpdate(context, details) : null,
-                onHorizontalDragCancel: enabledSwipe ? () => _onDragCancel(context) : null,
-                onHorizontalDragEnd: enabledSwipe ? (details) => _onDragEnd(context, details) : null,
+                onDoubleTapDown: enabledDoubleTap
+                    ? (details) =>
+                        _onDoubleTapDown(context, constrains, details)
+                    : null,
+                onDoubleTap: enabledDoubleTap
+                    ? () => _onDoubleTap(context, constrains)
+                    : null,
+                onHorizontalDragStart: enabledSwipe
+                    ? (details) => _onDragStart(context, details)
+                    : null,
+                onHorizontalDragUpdate: enabledSwipe
+                    ? (details) => _onDragUpdate(context, details)
+                    : null,
+                onHorizontalDragCancel:
+                    enabledSwipe ? () => _onDragCancel(context) : null,
+                onHorizontalDragEnd: enabledSwipe
+                    ? (details) => _onDragEnd(context, details)
+                    : null,
                 child: Stack(
                   children: [
                     if (enabledDoubleTap)
@@ -95,10 +104,12 @@ class DoubleTapPlayerView extends StatelessWidget {
   }
 
   void _onDoubleTap(BuildContext context, BoxConstraints constraints) {
-    final lastTapTimeL =
-        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfL).state).lastTapTime;
-    final lastTapTimeR =
-        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfR).state).lastTapTime;
+    final lastTapTimeL = context
+        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfL).state)
+        .lastTapTime;
+    final lastTapTimeR = context
+        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfR).state)
+        .lastTapTime;
     final vmConf = lastTapTimeL < lastTapTimeR
         ? doubleTapConfig.vmConfR
         : doubleTapConfig.vmConfL;
@@ -110,8 +121,7 @@ class DoubleTapPlayerView extends StatelessWidget {
   void _onDragStart(BuildContext context, DragStartDetails details) {
     final dx = details.globalPosition.dx;
     context.read(kPrvDragVm).setStart(dx);
-    if (swipeConfig.onDragStart != null)
-      swipeConfig.onDragStart(dx);
+    if (swipeConfig.onDragStart != null) swipeConfig.onDragStart(dx);
   }
 
   void _onDragUpdate(BuildContext context, DragUpdateDetails details) =>
@@ -119,8 +129,7 @@ class DoubleTapPlayerView extends StatelessWidget {
 
   void _onDragCancel(BuildContext context) {
     context.read(kPrvDragVm).clear();
-    if (swipeConfig.onDragCancel != null)
-      swipeConfig.onDragCancel();
+    if (swipeConfig.onDragCancel != null) swipeConfig.onDragCancel();
   }
 
   void _onDragEnd(BuildContext context, DragEndDetails details) {

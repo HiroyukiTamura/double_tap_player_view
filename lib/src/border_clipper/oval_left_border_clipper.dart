@@ -14,7 +14,8 @@ class OvalLeftBorderClipper extends CustomClipper<Path> {
     path.lineTo(0, 0);
     path.lineTo(curveHeight, 0);
     path.quadraticBezierTo(0, size.height / 4, 0, size.height / 2);
-    path.quadraticBezierTo(0, size.height - (size.height / 4), curveHeight, size.height);
+    path.quadraticBezierTo(
+        0, size.height - (size.height / 4), curveHeight, size.height);
     path.lineTo(size.width, size.height);
     path.lineTo(size.width, 0);
     return path;

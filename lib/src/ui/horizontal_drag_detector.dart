@@ -41,7 +41,8 @@ class DragOverlayWrapper extends HookWidget {
 
   @override
   Widget build(BuildContext context) => Visibility(
-        visible: enableDoubleTap ? !useProvider(_kPrvDoubleTapVis(_confPair)) : true,
+        visible:
+            enableDoubleTap ? !useProvider(_kPrvDoubleTapVis(_confPair)) : true,
         child: DragOverlay(
           overlayBuilder: overlayBuilder,
           backDrop: backDrop,

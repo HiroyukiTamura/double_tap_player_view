@@ -32,8 +32,8 @@ class DoubleTapWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) => Visibility(
-    visible: useProvider(kPrvDragVm.state.select((it) => !it.isDragging)),
-    child: Row(
+        visible: useProvider(kPrvDragVm.state.select((it) => !it.isDragging)),
+        child: Row(
           children: [
             _DoubleTapAnimated(
               vmConf: config.vmConfL,
@@ -63,7 +63,7 @@ class DoubleTapWidget extends HookWidget {
             )
           ],
         ),
-  );
+      );
 }
 
 class _DoubleTapAnimated extends StatefulHookWidget {
