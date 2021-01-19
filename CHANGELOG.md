@@ -17,3 +17,7 @@ initial release
 ## 1.0.3
 
 - change param type of `DoubleTapConfig.onDoubleTap`
+
+## 1.0.4
+
+- change return type of `DoubleTapConfig.onDoubleTap` from `Widget` to `Void`
