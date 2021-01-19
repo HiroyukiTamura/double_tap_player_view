@@ -11,8 +11,8 @@ class DoubleTapConfig {
   final ViewModelConfig vmConfL;
   final ViewModelConfig vmConfR;
   final TapCountWidgetBuilder customWidgetBuilder;
-  final Icon iconRight;
-  final Icon iconLeft;
+  final Widget iconRight;
+  final Widget iconLeft;
   final TextBuilder labelBuilder;
   final TextStyle labelStyle;
   final Duration rippleExpansionTime;
@@ -44,12 +44,12 @@ class DoubleTapConfig {
   /// [DoubleTapConfig] is widget config for [DoubleTapPlayerView] about double tap event
   factory DoubleTapConfig.create({
     double ignoreCenterWidth = 128,
-    Icon iconRight = const Icon(
+    Widget iconRight = const Icon(
       Icons.fast_forward,
       color: Colors.white,
       size: 40,
     ),
-    Icon iconLeft = const Icon(
+    Widget iconLeft = const Icon(
       Icons.fast_rewind,
       color: Colors.white,
       size: 40,

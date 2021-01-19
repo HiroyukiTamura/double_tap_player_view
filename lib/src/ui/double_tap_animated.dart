@@ -87,7 +87,7 @@ class _DoubleTapAnimated extends StatefulHookWidget {
   final Duration rippleExpansionTime;
   final Duration expansionHoldingTime;
   final Duration fadeTime;
-  final Icon icon;
+  final Widget icon;
   final TextBuilder labelBuilder;
   final TextStyle labelStyle;
   final double curveBank;
@@ -206,7 +206,7 @@ class _IconWithShade extends HookWidget {
 
   final ViewModelConfig vmConf;
   final TapCountWidgetBuilder builder;
-  final Icon icon;
+  final Widget icon;
   final TextBuilder textBuilder;
   final TextStyle textStyle;
   final Color ovalColor;
@@ -258,7 +258,7 @@ class _DefaultChild extends StatelessWidget {
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
-  final Icon icon;
+  final Widget icon;
   final TextBuilder textBuilder;
   final TextStyle textStyle;
 
