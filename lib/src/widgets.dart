@@ -128,8 +128,11 @@ class DoubleTapPlayerView extends StatelessWidget {
     if (swipeConfig.onDragStart != null) swipeConfig.onDragStart(dx);
   }
 
-  void _onDragUpdate(BuildContext context, DragUpdateDetails details) =>
-      context.read(kPrvDragVm).update(details.globalPosition.dx);
+  void _onDragUpdate(BuildContext context, DragUpdateDetails details) {
+    context.read(kPrvDragVm).update(details.globalPosition.dx);
+    if (swipeConfig.onDragUpdate != null)
+      swipeConfig.onDragUpdate(context.read(kPrvDragVm.state).data);
+  }
 
   void _onDragCancel(BuildContext context) {
     context.read(kPrvDragVm).clear();
