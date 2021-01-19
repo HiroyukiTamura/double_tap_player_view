@@ -23,6 +23,9 @@ typedef TextBuilder = String Function(Lr lr, int tapCount);
 /// Signature of widget creation from [SwipeData]
 typedef SwipeOverlayBuilder = Widget Function(SwipeData data);
 
+/// Signature of callback that have [lr]
+typedef DoubleTapCallback = Widget Function(Lr lr);
+
 /// widget to detect double tap and horizontal drag.
 /// this widget is usual to handle fast forward/rewind behavior like a video player.
 class DoubleTapPlayerView extends StatelessWidget {
@@ -113,9 +116,10 @@ class DoubleTapPlayerView extends StatelessWidget {
     final vmConf = lastTapTimeL < lastTapTimeR
         ? doubleTapConfig.vmConfR
         : doubleTapConfig.vmConfL;
+    final lr = lastTapTimeL < lastTapTimeR ? Lr.RIGHT : Lr.LEFT;
 
     context.read(kPrvDoubleTapVm(vmConf)).notifyTap(constraints.maxWidth);
-    if (doubleTapConfig.onDoubleTap != null) doubleTapConfig.onDoubleTap();
+    if (doubleTapConfig.onDoubleTap != null) doubleTapConfig.onDoubleTap(lr);
   }
 
   void _onDragStart(BuildContext context, DragStartDetails details) {

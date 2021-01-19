@@ -21,7 +21,7 @@ class DoubleTapConfig {
   final double curveBank;
   final Color ovalColor;
   final Color rippleColor;
-  final GestureTapCallback onDoubleTap;
+  final DoubleTapCallback onDoubleTap;
 
   DoubleTapConfig._({
     @required this.vmConfL,
@@ -63,7 +63,7 @@ class DoubleTapConfig {
     TapCountWidgetBuilder customWidgetBuilder,
     TextBuilder labelBuilder,
     TextStyle labelStyle = const TextStyle(color: Colors.white),
-    GestureTapCallback onDoubleTap,
+    DoubleTapCallback onDoubleTap,
   }) {
     assert(0 <= curveBank);
     if (customWidgetBuilder != null)
