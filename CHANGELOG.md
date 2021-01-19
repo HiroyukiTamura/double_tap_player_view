@@ -13,3 +13,7 @@ initial release
 - reformat code
 - fix incorrect doc
 - change param type of `DoubleTapConfig.iconRight`, `DoubleTapConfig.iconLeft` from Icon to Widget
+
+## 1.0.3
+
+- change param type of `DoubleTapConfig.onDoubleTap`
