@@ -1,3 +1,4 @@
+import 'package:double_tap_player_view/src/model/conf_pair.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -18,9 +19,11 @@ class DoubleTapConfig {
   final Duration rippleExpansionTime;
   final Duration expansionHoldingTime;
   final Duration fadeTime;
+  final Duration backDropAnimDuration;
   final double curveBank;
   final Color ovalColor;
   final Color rippleColor;
+  final Color backDrop;
   final DoubleTapCallback onDoubleTap;
 
   DoubleTapConfig._({
@@ -33,10 +36,12 @@ class DoubleTapConfig {
     @required this.labelBuilder,
     @required this.rippleExpansionTime,
     @required this.expansionHoldingTime,
+    @required this.backDropAnimDuration,
     @required this.fadeTime,
     @required this.curveBank,
     @required this.ovalColor,
     @required this.rippleColor,
+    @required this.backDrop,
     @required this.onDoubleTap,
   });
 
@@ -57,9 +62,11 @@ class DoubleTapConfig {
     double curveBank = 40,
     Color ovalColor = Colors.white30,
     Color rippleColor = Colors.white30,
+    Color backDrop = Colors.black26,
     Duration rippleExpansionTime = const Duration(milliseconds: 400),
     Duration expansionHoldingTime = const Duration(milliseconds: 200),
     Duration fadeTime = const Duration(milliseconds: 100),
+    Duration backDropAnimDuration = const Duration(milliseconds: 400),
     TapCountWidgetBuilder customWidgetBuilder,
     TextBuilder labelBuilder,
     TextStyle labelStyle = const TextStyle(color: Colors.white),
@@ -89,11 +96,15 @@ class DoubleTapConfig {
       labelStyle: labelStyle,
       rippleExpansionTime: rippleExpansionTime,
       expansionHoldingTime: expansionHoldingTime,
+      backDropAnimDuration: backDropAnimDuration,
       fadeTime: fadeTime,
       curveBank: curveBank,
       ovalColor: ovalColor,
       rippleColor: rippleColor,
       onDoubleTap: onDoubleTap,
+      backDrop: backDrop,
     );
   }
+
+  ConfPair get confPair => ConfPair(vmConfR, vmConfL);
 }

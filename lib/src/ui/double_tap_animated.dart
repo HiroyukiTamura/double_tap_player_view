@@ -1,6 +1,7 @@
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_left_border_clipper.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_right_border_clipper.dart';
+import 'package:double_tap_player_view/src/model/conf_pair.dart';
 import 'package:double_tap_player_view/src/model/double_tap_model.dart';
 import 'package:double_tap_player_view/src/ui/horizontal_drag_detector.dart';
 import 'package:double_tap_player_view/src/viewmodel/double_tap_view_model.dart';
@@ -20,6 +21,11 @@ final kPrvDoubleTapVm = StateNotifierProvider.autoDispose
 final _pDoubleTapEvent = Provider.autoDispose.family<String, ViewModelConfig>(
     (ref, ltr) => ref.watch(kPrvDoubleTapVm(ltr).state).doubleTapEventKey);
 
+final kPrvDoubleTapVis = Provider.autoDispose.family<bool, ConfPair>((ref,
+        confPair) =>
+    ref.watch(kPrvDoubleTapVm(confPair.vmConfL).state).continuesTapTime != 0 ||
+    ref.watch(kPrvDoubleTapVm(confPair.vmConfR).state).continuesTapTime != 0);
+
 class DoubleTapWidget extends HookWidget {
   const DoubleTapWidget({
     Key key,
@@ -33,35 +39,59 @@ class DoubleTapWidget extends HookWidget {
   @override
   Widget build(BuildContext context) => Visibility(
         visible: useProvider(kPrvDragVm.state.select((it) => !it.isDragging)),
-        child: Row(
+        child: Stack(
           children: [
-            _DoubleTapAnimated(
-              vmConf: config.vmConfL,
-              builder: config.customWidgetBuilder,
-              rippleExpansionTime: config.rippleExpansionTime,
-              fadeTime: config.fadeTime,
-              expansionHoldingTime: config.expansionHoldingTime,
-              curveBank: config.curveBank,
-              rippleColor: config.rippleColor,
-              ovalColor: config.ovalColor,
-              labelBuilder: config.labelBuilder,
-              labelStyle: config.labelStyle,
-              icon: config.iconLeft,
-            ),
-            _DoubleTapAnimated(
-              vmConf: config.vmConfR,
-              builder: config.customWidgetBuilder,
-              rippleExpansionTime: config.rippleExpansionTime,
-              fadeTime: config.fadeTime,
-              expansionHoldingTime: config.expansionHoldingTime,
-              curveBank: config.curveBank,
-              rippleColor: config.rippleColor,
-              ovalColor: config.ovalColor,
-              labelBuilder: config.labelBuilder,
-              labelStyle: config.labelStyle,
-              icon: config.iconRight,
+            _BackDrop(config: config),
+            Row(
+              children: [
+                _DoubleTapAnimated(
+                  vmConf: config.vmConfL,
+                  builder: config.customWidgetBuilder,
+                  rippleExpansionTime: config.rippleExpansionTime,
+                  fadeTime: config.fadeTime,
+                  expansionHoldingTime: config.expansionHoldingTime,
+                  curveBank: config.curveBank,
+                  rippleColor: config.rippleColor,
+                  ovalColor: config.ovalColor,
+                  labelBuilder: config.labelBuilder,
+                  labelStyle: config.labelStyle,
+                  icon: config.iconLeft,
+                ),
+                _DoubleTapAnimated(
+                  vmConf: config.vmConfR,
+                  builder: config.customWidgetBuilder,
+                  rippleExpansionTime: config.rippleExpansionTime,
+                  fadeTime: config.fadeTime,
+                  expansionHoldingTime: config.expansionHoldingTime,
+                  curveBank: config.curveBank,
+                  rippleColor: config.rippleColor,
+                  ovalColor: config.ovalColor,
+                  labelBuilder: config.labelBuilder,
+                  labelStyle: config.labelStyle,
+                  icon: config.iconRight,
+                )
+              ],
             )
           ],
+        ),
+      );
+}
+
+class _BackDrop extends HookWidget {
+  const _BackDrop({
+    @required this.config,
+  });
+
+  final DoubleTapConfig config;
+
+  @override
+  Widget build(BuildContext context) => AnimatedOpacity(
+        duration: config.backDropAnimDuration,
+        opacity: useProvider(kPrvDoubleTapVis(config.confPair)) ? 1 : 0,
+        child: SizedBox.expand(
+          child: ColoredBox(
+            color: config.backDrop,
+          ),
         ),
       );
 }

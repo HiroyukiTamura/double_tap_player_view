@@ -21,3 +21,7 @@ initial release
 ## 1.0.4
 
 - change return type of `DoubleTapConfig.onDoubleTap` from `Widget` to `Void`
+
+## 1.0.5
+
+- add params; `DoubleTapConfig.backDrop`, `DoubleTapConfig.backDropAnimDuration`

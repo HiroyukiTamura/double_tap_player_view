@@ -59,12 +59,14 @@ DoubleTapPlayerView(
     rippleColor: Colors.white30,
     rippleExpansionTime: const Duration(milliseconds: 400),
     expansionHoldingTime: const Duration(milliseconds: 200),
+    backDropAnimDuration: const Duration(milliseconds: 400),
     fadeTime: const Duration(milliseconds: 100),
+    backDrop: Colors.black26,
     // if provide [customWidgetBuilder], [ovalColor], [rippleColor], [labelBuilder], [labelStyle] must be null
     customWidgetBuilder: null, // type: Widget Function(Lr lr, int tapCount)
     labelBuilder: null, // type: `Widget Function(Lr lr, int tapCount)`
     labelStyle: const TextStyle(color: Colors.white),
-    onDoubleTap: null, // type: `void Function()`
+    onDoubleTap: null, // type: `void Function(Lr lr)`
   ),
   swipeConfig: SwipeConfig.create(
     // type: `Widget Function(SwipeData data)` SwipeData has dx when drag starts and current dragging dx.

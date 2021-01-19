@@ -1,3 +1,4 @@
+import 'package:double_tap_player_view/src/model/conf_pair.dart';
 import 'package:double_tap_player_view/src/model/double_tap_model.dart';
 import 'package:double_tap_player_view/src/viewmodel/swipe_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,18 +14,6 @@ final kPrvDragVm =
 final kPrvIsDragging =
     Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm.state).isDragging);
 
-class _ConfPair {
-  final ViewModelConfig vmConfR;
-  final ViewModelConfig vmConfL;
-
-  _ConfPair(this.vmConfR, this.vmConfL);
-}
-
-final _kPrvDoubleTapVis = Provider.autoDispose.family<bool, _ConfPair>((ref,
-        confPair) =>
-    ref.watch(kPrvDoubleTapVm(confPair.vmConfL).state).continuesTapTime != 0 ||
-    ref.watch(kPrvDoubleTapVm(confPair.vmConfR).state).continuesTapTime != 0);
-
 class DragOverlayWrapper extends HookWidget {
   DragOverlayWrapper({
     Key key,
@@ -33,16 +22,16 @@ class DragOverlayWrapper extends HookWidget {
     @required this.enableDoubleTap,
     @required ViewModelConfig vmConfR,
     @required ViewModelConfig vmConfL,
-  })  : _confPair = _ConfPair(vmConfL, vmConfR),
+  })  : _confPair = ConfPair(vmConfL, vmConfR),
         super(key: key);
 
-  final _ConfPair _confPair;
+  final ConfPair _confPair;
   final enableDoubleTap;
 
   @override
   Widget build(BuildContext context) => Visibility(
         visible:
-            enableDoubleTap ? !useProvider(_kPrvDoubleTapVis(_confPair)) : true,
+            enableDoubleTap ? !useProvider(kPrvDoubleTapVis(_confPair)) : true,
         child: DragOverlay(
           overlayBuilder: overlayBuilder,
           backDrop: backDrop,
