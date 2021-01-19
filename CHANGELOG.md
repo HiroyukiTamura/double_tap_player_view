@@ -25,3 +25,7 @@ initial release
 ## 1.0.5
 
 - add params; `DoubleTapConfig.backDrop`, `DoubleTapConfig.backDropAnimDuration`
+
+## 1.0.6
+
+- add params; `SwipeConfig.onDragUpdate`
