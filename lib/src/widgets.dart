@@ -24,7 +24,7 @@ typedef TextBuilder = String Function(Lr lr, int tapCount);
 typedef SwipeOverlayBuilder = Widget Function(SwipeData data);
 
 /// Signature of callback that have [lr]
-typedef DoubleTapCallback = Widget Function(Lr lr);
+typedef DoubleTapCallback = void Function(Lr lr);
 
 /// widget to detect double tap and horizontal drag.
 /// this widget is usual to handle fast forward/rewind behavior like a video player.
