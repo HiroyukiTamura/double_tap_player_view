@@ -10,15 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_hooks: ^0.15.0
-  hooks_riverpod: ^0.12.2
-  uuid: ^2.2.2
-  freezed_annotation: ^0.12.0
-  circular_reveal_animation: ^1.1.5
+  flutter_hooks: ^0.16.0
+  hooks_riverpod: ^0.13.0-nullsafety.3
+  uuid: ^3.0.0
+  freezed_annotation: ^0.13.0-nullsafety.0
+  circular_reveal_animation: ^2.0.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic: ^1.9.0
-  freezed: ^0.12.2
-  build_runner: ^1.10.13
+  freezed: ^0.13.0-nullsafety.2
+  build_runner: ^1.11.5
