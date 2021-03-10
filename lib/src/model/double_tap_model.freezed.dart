@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'double_tap_model.dart';
 
@@ -9,16 +9,18 @@ part of 'double_tap_model.dart';
 
 T _$identity<T>(T value) => value;
 
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 /// @nodoc
 class _$DoubleTapStateTearOff {
   const _$DoubleTapStateTearOff();
 
-// ignore: unused_element
   _DoubleTapState call(
-      {@required int continuesTapTime,
-      Position lastTap,
-      @required int lastTapTime,
-      String doubleTapEventKey}) {
+      {required int continuesTapTime,
+      Position? lastTap,
+      required int lastTapTime,
+      required String doubleTapEventKey}) {
     return _DoubleTapState(
       continuesTapTime: continuesTapTime,
       lastTap: lastTap,
@@ -29,18 +31,18 @@ class _$DoubleTapStateTearOff {
 }
 
 /// @nodoc
-// ignore: unused_element
 const $DoubleTapState = _$DoubleTapStateTearOff();
 
 /// @nodoc
 mixin _$DoubleTapState {
-  int get continuesTapTime;
-  Position get lastTap;
-  int get lastTapTime;
-  String get doubleTapEventKey;
+  int get continuesTapTime => throw _privateConstructorUsedError;
+  Position? get lastTap => throw _privateConstructorUsedError;
+  int get lastTapTime => throw _privateConstructorUsedError;
+  String get doubleTapEventKey => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DoubleTapStateCopyWith<DoubleTapState> get copyWith;
+  $DoubleTapStateCopyWith<DoubleTapState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -50,11 +52,11 @@ abstract class $DoubleTapStateCopyWith<$Res> {
       _$DoubleTapStateCopyWithImpl<$Res>;
   $Res call(
       {int continuesTapTime,
-      Position lastTap,
+      Position? lastTap,
       int lastTapTime,
       String doubleTapEventKey});
 
-  $PositionCopyWith<$Res> get lastTap;
+  $PositionCopyWith<$Res>? get lastTap;
 }
 
 /// @nodoc
@@ -68,30 +70,38 @@ class _$DoubleTapStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object continuesTapTime = freezed,
-    Object lastTap = freezed,
-    Object lastTapTime = freezed,
-    Object doubleTapEventKey = freezed,
+    Object? continuesTapTime = freezed,
+    Object? lastTap = freezed,
+    Object? lastTapTime = freezed,
+    Object? doubleTapEventKey = freezed,
   }) {
     return _then(_value.copyWith(
       continuesTapTime: continuesTapTime == freezed
           ? _value.continuesTapTime
-          : continuesTapTime as int,
-      lastTap: lastTap == freezed ? _value.lastTap : lastTap as Position,
-      lastTapTime:
-          lastTapTime == freezed ? _value.lastTapTime : lastTapTime as int,
+          : continuesTapTime // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastTap: lastTap == freezed
+          ? _value.lastTap
+          : lastTap // ignore: cast_nullable_to_non_nullable
+              as Position?,
+      lastTapTime: lastTapTime == freezed
+          ? _value.lastTapTime
+          : lastTapTime // ignore: cast_nullable_to_non_nullable
+              as int,
       doubleTapEventKey: doubleTapEventKey == freezed
           ? _value.doubleTapEventKey
-          : doubleTapEventKey as String,
+          : doubleTapEventKey // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
   @override
-  $PositionCopyWith<$Res> get lastTap {
+  $PositionCopyWith<$Res>? get lastTap {
     if (_value.lastTap == null) {
       return null;
     }
-    return $PositionCopyWith<$Res>(_value.lastTap, (value) {
+
+    return $PositionCopyWith<$Res>(_value.lastTap!, (value) {
       return _then(_value.copyWith(lastTap: value));
     });
   }
@@ -106,12 +116,12 @@ abstract class _$DoubleTapStateCopyWith<$Res>
   @override
   $Res call(
       {int continuesTapTime,
-      Position lastTap,
+      Position? lastTap,
       int lastTapTime,
       String doubleTapEventKey});
 
   @override
-  $PositionCopyWith<$Res> get lastTap;
+  $PositionCopyWith<$Res>? get lastTap;
 }
 
 /// @nodoc
@@ -127,21 +137,28 @@ class __$DoubleTapStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object continuesTapTime = freezed,
-    Object lastTap = freezed,
-    Object lastTapTime = freezed,
-    Object doubleTapEventKey = freezed,
+    Object? continuesTapTime = freezed,
+    Object? lastTap = freezed,
+    Object? lastTapTime = freezed,
+    Object? doubleTapEventKey = freezed,
   }) {
     return _then(_DoubleTapState(
       continuesTapTime: continuesTapTime == freezed
           ? _value.continuesTapTime
-          : continuesTapTime as int,
-      lastTap: lastTap == freezed ? _value.lastTap : lastTap as Position,
-      lastTapTime:
-          lastTapTime == freezed ? _value.lastTapTime : lastTapTime as int,
+          : continuesTapTime // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastTap: lastTap == freezed
+          ? _value.lastTap
+          : lastTap // ignore: cast_nullable_to_non_nullable
+              as Position?,
+      lastTapTime: lastTapTime == freezed
+          ? _value.lastTapTime
+          : lastTapTime // ignore: cast_nullable_to_non_nullable
+              as int,
       doubleTapEventKey: doubleTapEventKey == freezed
           ? _value.doubleTapEventKey
-          : doubleTapEventKey as String,
+          : doubleTapEventKey // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -149,18 +166,16 @@ class __$DoubleTapStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_DoubleTapState extends _DoubleTapState {
   const _$_DoubleTapState(
-      {@required this.continuesTapTime,
+      {required this.continuesTapTime,
       this.lastTap,
-      @required this.lastTapTime,
-      this.doubleTapEventKey})
-      : assert(continuesTapTime != null),
-        assert(lastTapTime != null),
-        super._();
+      required this.lastTapTime,
+      required this.doubleTapEventKey})
+      : super._();
 
   @override
   final int continuesTapTime;
   @override
-  final Position lastTap;
+  final Position? lastTap;
   @override
   final int lastTapTime;
   @override
@@ -204,32 +219,32 @@ class _$_DoubleTapState extends _DoubleTapState {
 }
 
 abstract class _DoubleTapState extends DoubleTapState {
-  const _DoubleTapState._() : super._();
   const factory _DoubleTapState(
-      {@required int continuesTapTime,
-      Position lastTap,
-      @required int lastTapTime,
-      String doubleTapEventKey}) = _$_DoubleTapState;
+      {required int continuesTapTime,
+      Position? lastTap,
+      required int lastTapTime,
+      required String doubleTapEventKey}) = _$_DoubleTapState;
+  const _DoubleTapState._() : super._();
 
   @override
-  int get continuesTapTime;
+  int get continuesTapTime => throw _privateConstructorUsedError;
   @override
-  Position get lastTap;
+  Position? get lastTap => throw _privateConstructorUsedError;
   @override
-  int get lastTapTime;
+  int get lastTapTime => throw _privateConstructorUsedError;
   @override
-  String get doubleTapEventKey;
+  String get doubleTapEventKey => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$DoubleTapStateCopyWith<_DoubleTapState> get copyWith;
+  _$DoubleTapStateCopyWith<_DoubleTapState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 class _$PositionTearOff {
   const _$PositionTearOff();
 
-// ignore: unused_element
-  _Position call({@required double x, @required double y}) {
+  _Position call({required double x, required double y}) {
     return _Position(
       x: x,
       y: y,
@@ -238,16 +253,16 @@ class _$PositionTearOff {
 }
 
 /// @nodoc
-// ignore: unused_element
 const $Position = _$PositionTearOff();
 
 /// @nodoc
 mixin _$Position {
-  double get x;
-  double get y;
+  double get x => throw _privateConstructorUsedError;
+  double get y => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $PositionCopyWith<Position> get copyWith;
+  $PositionCopyWith<Position> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -267,12 +282,18 @@ class _$PositionCopyWithImpl<$Res> implements $PositionCopyWith<$Res> {
 
   @override
   $Res call({
-    Object x = freezed,
-    Object y = freezed,
+    Object? x = freezed,
+    Object? y = freezed,
   }) {
     return _then(_value.copyWith(
-      x: x == freezed ? _value.x : x as double,
-      y: y == freezed ? _value.y : y as double,
+      x: x == freezed
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: y == freezed
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -296,21 +317,25 @@ class __$PositionCopyWithImpl<$Res> extends _$PositionCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object x = freezed,
-    Object y = freezed,
+    Object? x = freezed,
+    Object? y = freezed,
   }) {
     return _then(_Position(
-      x: x == freezed ? _value.x : x as double,
-      y: y == freezed ? _value.y : y as double,
+      x: x == freezed
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: y == freezed
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
 class _$_Position implements _Position {
-  const _$_Position({@required this.x, @required this.y})
-      : assert(x != null),
-        assert(y != null);
+  const _$_Position({required this.x, required this.y});
 
   @override
   final double x;
@@ -345,25 +370,24 @@ class _$_Position implements _Position {
 }
 
 abstract class _Position implements Position {
-  const factory _Position({@required double x, @required double y}) =
-      _$_Position;
+  const factory _Position({required double x, required double y}) = _$_Position;
 
   @override
-  double get x;
+  double get x => throw _privateConstructorUsedError;
   @override
-  double get y;
+  double get y => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PositionCopyWith<_Position> get copyWith;
+  _$PositionCopyWith<_Position> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 class _$ViewModelConfigTearOff {
   const _$ViewModelConfigTearOff();
 
-// ignore: unused_element
   _ViewModelConfig call(
-      {@required Lr lr, @required double ignoreRangeFromCenter}) {
+      {required Lr lr, required double ignoreRangeFromCenter}) {
     return _ViewModelConfig(
       lr: lr,
       ignoreRangeFromCenter: ignoreRangeFromCenter,
@@ -372,16 +396,16 @@ class _$ViewModelConfigTearOff {
 }
 
 /// @nodoc
-// ignore: unused_element
 const $ViewModelConfig = _$ViewModelConfigTearOff();
 
 /// @nodoc
 mixin _$ViewModelConfig {
-  Lr get lr;
-  double get ignoreRangeFromCenter;
+  Lr get lr => throw _privateConstructorUsedError;
+  double get ignoreRangeFromCenter => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ViewModelConfigCopyWith<ViewModelConfig> get copyWith;
+  $ViewModelConfigCopyWith<ViewModelConfig> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -403,14 +427,18 @@ class _$ViewModelConfigCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object lr = freezed,
-    Object ignoreRangeFromCenter = freezed,
+    Object? lr = freezed,
+    Object? ignoreRangeFromCenter = freezed,
   }) {
     return _then(_value.copyWith(
-      lr: lr == freezed ? _value.lr : lr as Lr,
+      lr: lr == freezed
+          ? _value.lr
+          : lr // ignore: cast_nullable_to_non_nullable
+              as Lr,
       ignoreRangeFromCenter: ignoreRangeFromCenter == freezed
           ? _value.ignoreRangeFromCenter
-          : ignoreRangeFromCenter as double,
+          : ignoreRangeFromCenter // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -438,14 +466,18 @@ class __$ViewModelConfigCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object lr = freezed,
-    Object ignoreRangeFromCenter = freezed,
+    Object? lr = freezed,
+    Object? ignoreRangeFromCenter = freezed,
   }) {
     return _then(_ViewModelConfig(
-      lr: lr == freezed ? _value.lr : lr as Lr,
+      lr: lr == freezed
+          ? _value.lr
+          : lr // ignore: cast_nullable_to_non_nullable
+              as Lr,
       ignoreRangeFromCenter: ignoreRangeFromCenter == freezed
           ? _value.ignoreRangeFromCenter
-          : ignoreRangeFromCenter as double,
+          : ignoreRangeFromCenter // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -453,9 +485,7 @@ class __$ViewModelConfigCopyWithImpl<$Res>
 /// @nodoc
 class _$_ViewModelConfig implements _ViewModelConfig {
   const _$_ViewModelConfig(
-      {@required this.lr, @required this.ignoreRangeFromCenter})
-      : assert(lr != null),
-        assert(ignoreRangeFromCenter != null);
+      {required this.lr, required this.ignoreRangeFromCenter});
 
   @override
   final Lr lr;
@@ -492,14 +522,15 @@ class _$_ViewModelConfig implements _ViewModelConfig {
 
 abstract class _ViewModelConfig implements ViewModelConfig {
   const factory _ViewModelConfig(
-      {@required Lr lr,
-      @required double ignoreRangeFromCenter}) = _$_ViewModelConfig;
+      {required Lr lr,
+      required double ignoreRangeFromCenter}) = _$_ViewModelConfig;
 
   @override
-  Lr get lr;
+  Lr get lr => throw _privateConstructorUsedError;
   @override
-  double get ignoreRangeFromCenter;
+  double get ignoreRangeFromCenter => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$ViewModelConfigCopyWith<_ViewModelConfig> get copyWith;
+  _$ViewModelConfigCopyWith<_ViewModelConfig> get copyWith =>
+      throw _privateConstructorUsedError;
 }

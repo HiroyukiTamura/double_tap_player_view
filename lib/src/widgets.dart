@@ -12,7 +12,7 @@ import 'model/swipe_data.dart';
 typedef OnDragStartCallback = void Function(double dx);
 
 /// Signature of callback that have [SwipeData]
-typedef OnDragCallback = void Function(SwipeData data);
+typedef OnDragCallback = void Function(SwipeData? data);
 
 /// Signature of widget creation from tap count and L/R
 typedef TapCountWidgetBuilder = Widget Function(Lr lr, int tapCount);
@@ -30,16 +30,16 @@ typedef DoubleTapCallback = void Function(Lr lr);
 /// this widget is usual to handle fast forward/rewind behavior like a video player.
 class DoubleTapPlayerView extends StatelessWidget {
   DoubleTapPlayerView({
-    Key key,
+    Key? key,
     this.doubleTapConfig,
     this.child,
     this.swipeConfig,
   })  : enabledDoubleTap = doubleTapConfig != null,
         enabledSwipe = swipeConfig != null;
 
-  final DoubleTapConfig doubleTapConfig;
-  final SwipeConfig swipeConfig;
-  final Widget child;
+  final DoubleTapConfig? doubleTapConfig;
+  final SwipeConfig? swipeConfig;
+  final Widget? child;
 
   final bool enabledDoubleTap;
   final bool enabledSwipe;
@@ -47,54 +47,53 @@ class DoubleTapPlayerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
-          if (child != null) child,
+          child,
           LayoutBuilder(
             builder: (context, constrains) => SizedBox.expand(
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onDoubleTapDown: enabledDoubleTap
-                    ? (details) =>
-                        _onDoubleTapDown(context, constrains, details)
+                    ? (details) => _onDoubleTapDown(
+                        context, constrains, doubleTapConfig!, details)
                     : null,
                 onDoubleTap: enabledDoubleTap
-                    ? () => _onDoubleTap(context, constrains)
+                    ? () => _onDoubleTap(context, constrains, doubleTapConfig!)
                     : null,
                 onHorizontalDragStart: enabledSwipe
-                    ? (details) => _onDragStart(context, details)
+                    ? (details) => _onDragStart(context, details, swipeConfig!)
                     : null,
                 onHorizontalDragUpdate: enabledSwipe
-                    ? (details) => _onDragUpdate(context, details)
+                    ? (details) => _onDragUpdate(context, details, swipeConfig!)
                     : null,
-                onHorizontalDragCancel:
-                    enabledSwipe ? () => _onDragCancel(context) : null,
+                onHorizontalDragCancel: enabledSwipe
+                    ? () => _onDragCancel(context, swipeConfig!)
+                    : null,
                 onHorizontalDragEnd: enabledSwipe
-                    ? (details) => _onDragEnd(context, details)
+                    ? (details) => _onDragEnd(context, details, swipeConfig!)
                     : null,
                 child: Stack(
                   children: [
                     if (enabledDoubleTap)
                       DoubleTapWidget(
-                        config: doubleTapConfig,
+                        config: doubleTapConfig!,
                         enabledDrag: enabledSwipe,
                       ),
                     if (enabledSwipe)
                       DragOverlayWrapper(
-                        backDrop: swipeConfig.backDrop,
-                        overlayBuilder: swipeConfig.overlayBuilder,
-                        vmConfR: doubleTapConfig.vmConfR,
-                        vmConfL: doubleTapConfig.vmConfL,
-                        enableDoubleTap: enabledDoubleTap,
-                      ),
+                        backDrop: swipeConfig!.backDrop,
+                        overlayBuilder: swipeConfig!.overlayBuilder,
+                        confPair: doubleTapConfig?.confPair,
+                      )
                   ],
                 ),
               ),
             ),
           ),
-        ],
+        ].whereNonNull(),
       );
 
-  void _onDoubleTapDown(BuildContext context, BoxConstraints constraints,
-      TapDownDetails details) {
+  static void _onDoubleTapDown(BuildContext context, BoxConstraints constraints,
+      DoubleTapConfig doubleTapConfig, TapDownDetails details) {
     final centerX = constraints.maxWidth / 2;
     final vmConf = details.localPosition.dx < centerX
         ? doubleTapConfig.vmConfL
@@ -106,7 +105,8 @@ class DoubleTapPlayerView extends StatelessWidget {
     context.read(kPrvDoubleTapVm(vmConf)).noteTapPosition(dx, dy);
   }
 
-  void _onDoubleTap(BuildContext context, BoxConstraints constraints) {
+  void _onDoubleTap(BuildContext context, BoxConstraints constraints,
+      DoubleTapConfig doubleTapConfig) {
     final lastTapTimeL = context
         .read(kPrvDoubleTapVm(doubleTapConfig.vmConfL).state)
         .lastTapTime;
@@ -119,29 +119,35 @@ class DoubleTapPlayerView extends StatelessWidget {
     final lr = lastTapTimeL < lastTapTimeR ? Lr.RIGHT : Lr.LEFT;
 
     context.read(kPrvDoubleTapVm(vmConf)).notifyTap(constraints.maxWidth);
-    if (doubleTapConfig.onDoubleTap != null) doubleTapConfig.onDoubleTap(lr);
+    doubleTapConfig.onDoubleTap?.call(lr);
   }
 
-  void _onDragStart(BuildContext context, DragStartDetails details) {
+  static void _onDragStart(
+      BuildContext context, DragStartDetails details, SwipeConfig conf) {
     final dx = details.globalPosition.dx;
     context.read(kPrvDragVm).setStart(dx);
-    if (swipeConfig.onDragStart != null) swipeConfig.onDragStart(dx);
+    conf.onDragStart?.call(dx);
   }
 
-  void _onDragUpdate(BuildContext context, DragUpdateDetails details) {
+  static void _onDragUpdate(
+      BuildContext context, DragUpdateDetails details, SwipeConfig conf) {
     context.read(kPrvDragVm).update(details.globalPosition.dx);
-    if (swipeConfig.onDragUpdate != null)
-      swipeConfig.onDragUpdate(context.read(kPrvDragVm.state).data);
+    conf.onDragUpdate?.call(context.read(kPrvDragVm.state).data);
   }
 
-  void _onDragCancel(BuildContext context) {
+  static void _onDragCancel(BuildContext context, SwipeConfig swipeConfig) {
     context.read(kPrvDragVm).clear();
-    if (swipeConfig.onDragCancel != null) swipeConfig.onDragCancel();
+    swipeConfig.onDragCancel?.call();
   }
 
-  void _onDragEnd(BuildContext context, DragEndDetails details) {
-    final data = context.read(kPrvDragVm.state).data.copyWith();
+  static void _onDragEnd(
+      BuildContext context, DragEndDetails details, SwipeConfig swipeConfig) {
+    final data = context.read(kPrvDragVm.state).data?.copyWith();
     context.read(kPrvDragVm).clear();
-    if (swipeConfig.onDragEnd != null) swipeConfig.onDragEnd(data);
+    swipeConfig.onDragEnd?.call(data);
   }
+}
+
+extension IterableX<E> on Iterable<E?> {
+  List<E> whereNonNull() => where((it) => it != null).cast<E>().toList();
 }

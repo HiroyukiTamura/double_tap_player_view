@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Clip widget in oval shape at right side
 class OvalRightBorderClipper extends CustomClipper<Path> {
   OvalRightBorderClipper({
-    @required this.curveHeight,
+    required this.curveHeight,
   });
 
   final double curveHeight;

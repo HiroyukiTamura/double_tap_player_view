@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'swipe_data.dart';
 
@@ -9,12 +9,14 @@ part of 'swipe_data.dart';
 
 T _$identity<T>(T value) => value;
 
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 /// @nodoc
 class _$SwipeDataTearOff {
   const _$SwipeDataTearOff();
 
-// ignore: unused_element
-  _SwipeData call({@required double startDx, @required double currentDx}) {
+  _SwipeData call({required double startDx, required double currentDx}) {
     return _SwipeData(
       startDx: startDx,
       currentDx: currentDx,
@@ -23,16 +25,16 @@ class _$SwipeDataTearOff {
 }
 
 /// @nodoc
-// ignore: unused_element
 const $SwipeData = _$SwipeDataTearOff();
 
 /// @nodoc
 mixin _$SwipeData {
-  double get startDx;
-  double get currentDx;
+  double get startDx => throw _privateConstructorUsedError;
+  double get currentDx => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SwipeDataCopyWith<SwipeData> get copyWith;
+  $SwipeDataCopyWith<SwipeData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -52,12 +54,18 @@ class _$SwipeDataCopyWithImpl<$Res> implements $SwipeDataCopyWith<$Res> {
 
   @override
   $Res call({
-    Object startDx = freezed,
-    Object currentDx = freezed,
+    Object? startDx = freezed,
+    Object? currentDx = freezed,
   }) {
     return _then(_value.copyWith(
-      startDx: startDx == freezed ? _value.startDx : startDx as double,
-      currentDx: currentDx == freezed ? _value.currentDx : currentDx as double,
+      startDx: startDx == freezed
+          ? _value.startDx
+          : startDx // ignore: cast_nullable_to_non_nullable
+              as double,
+      currentDx: currentDx == freezed
+          ? _value.currentDx
+          : currentDx // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -82,21 +90,25 @@ class __$SwipeDataCopyWithImpl<$Res> extends _$SwipeDataCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object startDx = freezed,
-    Object currentDx = freezed,
+    Object? startDx = freezed,
+    Object? currentDx = freezed,
   }) {
     return _then(_SwipeData(
-      startDx: startDx == freezed ? _value.startDx : startDx as double,
-      currentDx: currentDx == freezed ? _value.currentDx : currentDx as double,
+      startDx: startDx == freezed
+          ? _value.startDx
+          : startDx // ignore: cast_nullable_to_non_nullable
+              as double,
+      currentDx: currentDx == freezed
+          ? _value.currentDx
+          : currentDx // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
 class _$_SwipeData implements _SwipeData {
-  const _$_SwipeData({@required this.startDx, @required this.currentDx})
-      : assert(startDx != null),
-        assert(currentDx != null);
+  const _$_SwipeData({required this.startDx, required this.currentDx});
 
   @override
   final double startDx;
@@ -134,13 +146,14 @@ class _$_SwipeData implements _SwipeData {
 
 abstract class _SwipeData implements SwipeData {
   const factory _SwipeData(
-      {@required double startDx, @required double currentDx}) = _$_SwipeData;
+      {required double startDx, required double currentDx}) = _$_SwipeData;
 
   @override
-  double get startDx;
+  double get startDx => throw _privateConstructorUsedError;
   @override
-  double get currentDx;
+  double get currentDx => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SwipeDataCopyWith<_SwipeData> get copyWith;
+  _$SwipeDataCopyWith<_SwipeData> get copyWith =>
+      throw _privateConstructorUsedError;
 }

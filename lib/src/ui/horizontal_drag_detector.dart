@@ -1,5 +1,4 @@
 import 'package:double_tap_player_view/src/model/conf_pair.dart';
-import 'package:double_tap_player_view/src/model/double_tap_model.dart';
 import 'package:double_tap_player_view/src/viewmodel/swipe_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,27 +10,23 @@ import 'double_tap_animated.dart';
 final kPrvDragVm =
     StateNotifierProvider<SwipeViewModel>((ref) => SwipeViewModel());
 
-final kPrvIsDragging =
+final AutoDisposeProvider<bool> kPrvIsDragging =
     Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm.state).isDragging);
 
 class DragOverlayWrapper extends HookWidget {
   DragOverlayWrapper({
-    Key key,
-    @required this.overlayBuilder,
-    @required this.backDrop,
-    @required this.enableDoubleTap,
-    @required ViewModelConfig vmConfR,
-    @required ViewModelConfig vmConfL,
-  })  : _confPair = ConfPair(vmConfL, vmConfR),
-        super(key: key);
+    Key? key,
+    required this.overlayBuilder,
+    required this.backDrop,
+    required this.confPair,
+  }) :super(key: key);
 
-  final ConfPair _confPair;
-  final enableDoubleTap;
+  final ConfPair? confPair;
 
   @override
   Widget build(BuildContext context) => Visibility(
         visible:
-            enableDoubleTap ? !useProvider(kPrvDoubleTapVis(_confPair)) : true,
+            confPair == null ? true : !useProvider(kPrvDoubleTapVis(confPair!)),//todo fix
         child: DragOverlay(
           overlayBuilder: overlayBuilder,
           backDrop: backDrop,
@@ -44,9 +39,9 @@ class DragOverlayWrapper extends HookWidget {
 
 class DragOverlay extends StatefulWidget {
   const DragOverlay({
-    Key key,
-    @required this.overlayBuilder,
-    @required this.backDrop,
+    Key? key,
+    required this.overlayBuilder,
+    required this.backDrop,
   }) : super(key: key);
 
   final SwipeOverlayBuilder overlayBuilder;
@@ -59,8 +54,8 @@ class DragOverlay extends StatefulWidget {
 class DragOverlayState extends State<DragOverlay>
     with SingleTickerProviderStateMixin {
   static const _DURATION_R = Duration(milliseconds: 200);
-  AnimationController _ac;
-  Animation<double> _animation;
+  late AnimationController _ac;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -110,7 +105,7 @@ class DragOverlayState extends State<DragOverlay>
 }
 
 class _DragOverlayContentWrapper extends HookWidget {
-  const _DragOverlayContentWrapper({@required this.overlayBuilder});
+  const _DragOverlayContentWrapper({required this.overlayBuilder});
 
   final SwipeOverlayBuilder overlayBuilder;
 
@@ -125,15 +120,15 @@ class _DragOverlayContentWrapper extends HookWidget {
 
 class _OverlayWidget extends HookWidget {
   const _OverlayWidget({
-    Key key,
-    @required this.overlayBuilder,
+    Key? key,
+    required this.overlayBuilder,
   }) : super(key: key);
 
   final SwipeOverlayBuilder overlayBuilder;
 
   @override
   Widget build(BuildContext context) {
-    final data = useProvider(kPrvDragVm.state.select((it) => it.data));
-    return overlayBuilder(data);
+    final data = useProvider(kPrvDragVm.state.select(((it) => it.data!)));
+    return overlayBuilder(data);//todo fix
   }
 }

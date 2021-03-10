@@ -1,6 +1,5 @@
 import 'package:double_tap_player_view/src/model/conf_pair.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../double_tap_player_view.dart';
 import 'double_tap_model.dart';
@@ -11,10 +10,10 @@ import 'package:flutter/widgets.dart';
 class DoubleTapConfig {
   final ViewModelConfig vmConfL;
   final ViewModelConfig vmConfR;
-  final TapCountWidgetBuilder customWidgetBuilder;
+  final TapCountWidgetBuilder? customWidgetBuilder;
   final Widget iconRight;
   final Widget iconLeft;
-  final TextBuilder labelBuilder;
+  final TextBuilder? labelBuilder;
   final TextStyle labelStyle;
   final Duration rippleExpansionTime;
   final Duration expansionHoldingTime;
@@ -24,25 +23,25 @@ class DoubleTapConfig {
   final Color ovalColor;
   final Color rippleColor;
   final Color backDrop;
-  final DoubleTapCallback onDoubleTap;
+  final DoubleTapCallback? onDoubleTap;
 
   DoubleTapConfig._({
-    @required this.vmConfL,
-    @required this.vmConfR,
-    @required this.customWidgetBuilder,
-    @required this.iconRight,
-    @required this.iconLeft,
-    @required this.labelStyle,
-    @required this.labelBuilder,
-    @required this.rippleExpansionTime,
-    @required this.expansionHoldingTime,
-    @required this.backDropAnimDuration,
-    @required this.fadeTime,
-    @required this.curveBank,
-    @required this.ovalColor,
-    @required this.rippleColor,
-    @required this.backDrop,
-    @required this.onDoubleTap,
+    required this.vmConfL,
+    required this.vmConfR,
+    required this.customWidgetBuilder,
+    required this.iconRight,
+    required this.iconLeft,
+    required this.labelStyle,
+    required this.labelBuilder,
+    required this.rippleExpansionTime,
+    required this.expansionHoldingTime,
+    required this.backDropAnimDuration,
+    required this.fadeTime,
+    required this.curveBank,
+    required this.ovalColor,
+    required this.rippleColor,
+    required this.backDrop,
+    required this.onDoubleTap,
   });
 
   /// factory constructor of [DoubleTapConfig].
@@ -67,19 +66,16 @@ class DoubleTapConfig {
     Duration expansionHoldingTime = const Duration(milliseconds: 200),
     Duration fadeTime = const Duration(milliseconds: 100),
     Duration backDropAnimDuration = const Duration(milliseconds: 400),
-    TapCountWidgetBuilder customWidgetBuilder,
-    TextBuilder labelBuilder,
+    TapCountWidgetBuilder? customWidgetBuilder,
+    TextBuilder? labelBuilder,
     TextStyle labelStyle = const TextStyle(color: Colors.white),
-    DoubleTapCallback onDoubleTap,
+    DoubleTapCallback? onDoubleTap,
   }) {
     assert(0 <= curveBank);
     if (customWidgetBuilder != null)
       assert(
-          iconRight == null &&
-              iconLeft == null &&
-              labelBuilder == null &&
-              labelStyle == null,
-          'if customWidgetBuilder is not null, iconRight, iconLeft, textBuilder and textStyle must be null.');
+              labelBuilder == null,
+          'if customWidgetBuilder is not null textBuilder must be null.');//todo XOR CHECK
     return DoubleTapConfig._(
       vmConfL: ViewModelConfig(
         lr: Lr.LEFT,

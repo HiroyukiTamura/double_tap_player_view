@@ -1,9 +1,8 @@
 import 'package:double_tap_player_view/double_tap_player_view.dart';
 import 'package:flutter/material.dart';
 import 'package:double_tap_player_view/src/model/swipe_config.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player/video_player.dart';
-import 'package:after_layout/after_layout.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -14,8 +13,8 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with AfterLayoutMixin {
-  VideoPlayerController _controller;
+class _MyAppState extends State<MyApp> {
+  late VideoPlayerController _controller;
 
   @override
   void initState() {
@@ -23,6 +22,8 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
     _controller = VideoPlayerController.network(
         'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
       ..initialize().then((_) => setState(() {}));
+    WidgetsBinding.instance
+        ?.addPostFrameCallback((_) async => _controller.play());
   }
 
   @override
@@ -49,9 +50,6 @@ class _MyAppState extends State<MyApp> with AfterLayoutMixin {
           ),
         ),
       );
-
-  @override
-  void afterFirstLayout(BuildContext context) => _controller.play();
 
   Widget _overlay(SwipeData data) {
     final dxDiff = (data.currentDx - data.startDx).toInt();

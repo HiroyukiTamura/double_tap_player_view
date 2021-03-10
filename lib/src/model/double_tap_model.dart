@@ -6,17 +6,21 @@ import 'lr.dart';
 part 'double_tap_model.freezed.dart';
 
 @freezed
-abstract class DoubleTapState implements _$DoubleTapState {
+class DoubleTapState with _$DoubleTapState {
+
+  static const INITIAL_KEY = 'INITIAL';
+
   const factory DoubleTapState({
-    @required int continuesTapTime,
-    Position lastTap,
-    @required int lastTapTime,
-    String doubleTapEventKey,
+    required int continuesTapTime,
+    Position? lastTap,
+    required int lastTapTime,
+    required String doubleTapEventKey,
   }) = _DoubleTapState;
 
   factory DoubleTapState.initial() => const DoubleTapState(
         continuesTapTime: 0,
         lastTapTime: 0,
+        doubleTapEventKey: INITIAL_KEY,
       );
 
   const DoubleTapState._();
@@ -35,16 +39,16 @@ abstract class DoubleTapState implements _$DoubleTapState {
 @freezed
 abstract class Position with _$Position {
   const factory Position({
-    @required double x,
-    @required double y,
+    required double x,
+    required double y,
   }) = _Position;
 }
 
 @freezed
 abstract class ViewModelConfig with _$ViewModelConfig {
   const factory ViewModelConfig({
-    @required Lr lr,
-    @required double ignoreRangeFromCenter,
+    required Lr lr,
+    required double ignoreRangeFromCenter,
   }) = _ViewModelConfig;
 }
 
