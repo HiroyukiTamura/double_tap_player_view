@@ -29,3 +29,9 @@ initial release
 ## 1.0.6
 
 - add params; `SwipeConfig.onDragUpdate`
+
+## 1.0.6
+
+- apply null safety
+- remove unused native code
+- update dependencies
