@@ -4,9 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'swipe_model.freezed.dart';
 
 @freezed
-abstract class SwipeModel implements _$SwipeModel {
+class SwipeModel with _$SwipeModel {
   const factory SwipeModel({
-    SwipeData data,
+    SwipeData? data,
   }) = _SwipeModel;
 
   const SwipeModel._();

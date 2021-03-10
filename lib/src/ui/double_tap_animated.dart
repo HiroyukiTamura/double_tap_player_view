@@ -28,9 +28,9 @@ final kPrvDoubleTapVis = Provider.autoDispose.family<bool, ConfPair>((ref,
 
 class DoubleTapWidget extends HookWidget {
   const DoubleTapWidget({
-    Key key,
-    @required this.config,
-    @required this.enabledDrag,
+    Key? key,
+    required this.config,
+    required this.enabledDrag,
   }) : super(key: key);
 
   final DoubleTapConfig config;
@@ -79,7 +79,7 @@ class DoubleTapWidget extends HookWidget {
 
 class _BackDrop extends HookWidget {
   const _BackDrop({
-    @required this.config,
+    required this.config,
   });
 
   final DoubleTapConfig config;
@@ -98,27 +98,27 @@ class _BackDrop extends HookWidget {
 
 class _DoubleTapAnimated extends StatefulHookWidget {
   const _DoubleTapAnimated({
-    @required this.vmConf,
-    @required this.builder,
-    @required this.rippleExpansionTime,
-    @required this.expansionHoldingTime,
-    @required this.fadeTime,
-    @required this.curveBank,
-    @required this.ovalColor,
-    @required this.rippleColor,
-    @required this.icon,
-    @required this.labelBuilder,
-    @required this.labelStyle,
-    Key key,
+    required this.vmConf,
+    required this.builder,
+    required this.rippleExpansionTime,
+    required this.expansionHoldingTime,
+    required this.fadeTime,
+    required this.curveBank,
+    required this.ovalColor,
+    required this.rippleColor,
+    required this.icon,
+    required this.labelBuilder,
+    required this.labelStyle,
+    Key? key,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
-  final TapCountWidgetBuilder builder;
+  final TapCountWidgetBuilder? builder;
   final Duration rippleExpansionTime;
   final Duration expansionHoldingTime;
   final Duration fadeTime;
   final Widget icon;
-  final TextBuilder labelBuilder;
+  final TextBuilder? labelBuilder;
   final TextStyle labelStyle;
   final double curveBank;
   final Color ovalColor;
@@ -130,10 +130,10 @@ class _DoubleTapAnimated extends StatefulHookWidget {
 
 class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
     with TickerProviderStateMixin {
-  AnimationController _animationController;
-  AnimationController _fadeController;
-  Animation<double> _animation;
-  Animation<double> _fadeAnimation;
+  late AnimationController _animationController;
+  late AnimationController _fadeController;
+  late Animation<double> _animation;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
@@ -203,7 +203,7 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
       );
 
   Future<void> _onChange(BuildContext context, String value) async {
-    if (value == null) return;
+    if (value == DoubleTapState.INITIAL_KEY) return;
 
     if (_animationController.status == AnimationStatus.completed)
       _animationController.reset();
@@ -225,19 +225,19 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
 
 class _IconWithShade extends HookWidget {
   const _IconWithShade({
-    Key key,
-    @required this.ovalColor,
-    @required this.vmConf,
-    @required this.builder,
-    @required this.icon,
-    @required this.textBuilder,
-    @required this.textStyle,
+    Key? key,
+    required this.ovalColor,
+    required this.vmConf,
+    required this.builder,
+    required this.icon,
+    required this.textBuilder,
+    required this.textStyle,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
-  final TapCountWidgetBuilder builder;
+  final TapCountWidgetBuilder? builder;
   final Widget icon;
-  final TextBuilder textBuilder;
+  final TextBuilder? textBuilder;
   final TextStyle textStyle;
   final Color ovalColor;
 
@@ -255,16 +255,16 @@ class _IconWithShade extends HookWidget {
               )
             : _CustomChild(
                 vmConf: vmConf,
-                builder: builder,
+                builder: builder!, //todo fix
               ),
       );
 }
 
 class _CustomChild extends HookWidget {
   const _CustomChild({
-    Key key,
-    @required this.vmConf,
-    @required this.builder,
+    Key? key,
+    required this.vmConf,
+    required this.builder,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
@@ -280,16 +280,16 @@ class _CustomChild extends HookWidget {
 
 class _DefaultChild extends StatelessWidget {
   const _DefaultChild({
-    Key key,
-    @required this.vmConf,
-    @required this.icon,
-    @required this.textBuilder,
-    @required this.textStyle,
+    Key? key,
+    required this.vmConf,
+    required this.icon,
+    required this.textBuilder,
+    required this.textStyle,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
   final Widget icon;
-  final TextBuilder textBuilder;
+  final TextBuilder? textBuilder;
   final TextStyle textStyle;
 
   static const double _TEXT_H = 24;
@@ -311,13 +311,13 @@ class _DefaultChild extends StatelessWidget {
 
 class _DefaultChildText extends HookWidget {
   const _DefaultChildText({
-    Key key,
-    @required this.textBuilder,
-    @required this.textStyle,
-    @required this.vmConf,
+    Key? key,
+    required this.textBuilder,
+    required this.textStyle,
+    required this.vmConf,
   }) : super(key: key);
 
-  final TextBuilder textBuilder;
+  final TextBuilder? textBuilder;
   final TextStyle textStyle;
   final ViewModelConfig vmConf;
 
@@ -325,9 +325,8 @@ class _DefaultChildText extends HookWidget {
   Widget build(BuildContext context) {
     final tapCount = useProvider(
         kPrvDoubleTapVm(vmConf).state.select((it) => it.continuesTapTime));
-    final text = textBuilder == null
-        ? '${tapCount * 10} sec'
-        : textBuilder(vmConf.lr, tapCount);
+    final text =
+        textBuilder?.call(vmConf.lr, tapCount) ?? '${tapCount * 10} sec';
     return Text(
       text,
       style: textStyle,

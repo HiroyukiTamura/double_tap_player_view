@@ -1,4 +1,4 @@
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../model/lr.dart';
 import '../model/double_tap_model.dart';
 
@@ -20,10 +20,10 @@ class DoubleTapViewModel extends StateNotifier<DoubleTapState> {
   }
 
   bool isLastTapValid(double widgetW) {
-    if (state.lastTap == null) return false;
+    final lastX = state.lastTap?.x;
+    if (lastX == null) return false;
 
-    final xFromCenter =
-        config.lr == Lr.LEFT ? widgetW - state.lastTap.x : state.lastTap.x;
+    final xFromCenter = config.lr == Lr.LEFT ? widgetW - lastX : lastX;
     return config.ignoreRangeFromCenter < xFromCenter;
   }
 }
