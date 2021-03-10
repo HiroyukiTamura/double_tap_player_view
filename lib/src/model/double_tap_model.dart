@@ -7,7 +7,6 @@ part 'double_tap_model.freezed.dart';
 
 @freezed
 class DoubleTapState with _$DoubleTapState {
-
   static const INITIAL_KEY = 'INITIAL';
 
   const factory DoubleTapState({

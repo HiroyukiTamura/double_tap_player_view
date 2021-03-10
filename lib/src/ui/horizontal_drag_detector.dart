@@ -19,14 +19,15 @@ class DragOverlayWrapper extends HookWidget {
     required this.overlayBuilder,
     required this.backDrop,
     required this.confPair,
-  }) :super(key: key);
+  }) : super(key: key);
 
   final ConfPair? confPair;
 
   @override
   Widget build(BuildContext context) => Visibility(
-        visible:
-            confPair == null ? true : !useProvider(kPrvDoubleTapVis(confPair!)),//todo fix
+        visible: confPair == null
+            ? true
+            : !useProvider(kPrvDoubleTapVis(confPair!)), //todo fix
         child: DragOverlay(
           overlayBuilder: overlayBuilder,
           backDrop: backDrop,
@@ -129,6 +130,6 @@ class _OverlayWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final data = useProvider(kPrvDragVm.state.select(((it) => it.data!)));
-    return overlayBuilder(data);//todo fix
+    return overlayBuilder(data); //todo fix
   }
 }

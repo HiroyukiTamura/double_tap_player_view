@@ -73,9 +73,8 @@ class DoubleTapConfig {
   }) {
     assert(0 <= curveBank);
     if (customWidgetBuilder != null)
-      assert(
-              labelBuilder == null,
-          'if customWidgetBuilder is not null textBuilder must be null.');//todo XOR CHECK
+      assert(labelBuilder == null,
+          'if customWidgetBuilder is not null textBuilder must be null.'); //todo XOR CHECK
     return DoubleTapConfig._(
       vmConfL: ViewModelConfig(
         lr: Lr.LEFT,
