@@ -108,42 +108,42 @@ class DoubleTapPlayerView extends StatelessWidget {
   void _onDoubleTap(BuildContext context, BoxConstraints constraints,
       DoubleTapConfig doubleTapConfig) {
     final lastTapTimeL = context
-        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfL).state)
+        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfL))
         .lastTapTime;
     final lastTapTimeR = context
-        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfR).state)
+        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfR))
         .lastTapTime;
     final vmConf = lastTapTimeL < lastTapTimeR
         ? doubleTapConfig.vmConfR
         : doubleTapConfig.vmConfL;
     final lr = lastTapTimeL < lastTapTimeR ? Lr.RIGHT : Lr.LEFT;
 
-    context.read(kPrvDoubleTapVm(vmConf)).notifyTap(constraints.maxWidth);
+    context.read(kPrvDoubleTapVm(vmConf).notifier).notifyTap(constraints.maxWidth);
     doubleTapConfig.onDoubleTap?.call(lr);
   }
 
   static void _onDragStart(
       BuildContext context, DragStartDetails details, SwipeConfig conf) {
     final dx = details.globalPosition.dx;
-    context.read(kPrvDragVm).setStart(dx);
+    context.read(kPrvDragVm.notifier).setStart(dx);
     conf.onDragStart?.call(dx);
   }
 
   static void _onDragUpdate(
       BuildContext context, DragUpdateDetails details, SwipeConfig conf) {
-    context.read(kPrvDragVm).update(details.globalPosition.dx);
-    conf.onDragUpdate?.call(context.read(kPrvDragVm.state).data);
+    context.read(kPrvDragVm.notifier).update(details.globalPosition.dx);
+    conf.onDragUpdate?.call(context.read(kPrvDragVm).data);
   }
 
   static void _onDragCancel(BuildContext context, SwipeConfig swipeConfig) {
-    context.read(kPrvDragVm).clear();
+    context.read(kPrvDragVm.notifier).clear();
     swipeConfig.onDragCancel?.call();
   }
 
   static void _onDragEnd(
       BuildContext context, DragEndDetails details, SwipeConfig swipeConfig) {
-    final data = context.read(kPrvDragVm.state).data?.copyWith();
-    context.read(kPrvDragVm).clear();
+    final data = context.read(kPrvDragVm).data?.copyWith();
+    context.read(kPrvDragVm.notifier).clear();
     swipeConfig.onDragEnd?.call(data);
   }
 }

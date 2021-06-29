@@ -1,4 +1,5 @@
 import 'package:double_tap_player_view/src/model/conf_pair.dart';
+import 'package:double_tap_player_view/src/model/swipe_model.dart';
 import 'package:double_tap_player_view/src/viewmodel/swipe_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,10 +9,10 @@ import '../../double_tap_player_view.dart';
 import 'double_tap_animated.dart';
 
 final kPrvDragVm =
-    StateNotifierProvider<SwipeViewModel>((ref) => SwipeViewModel());
+    StateNotifierProvider<SwipeViewModel, SwipeModel>((ref) => SwipeViewModel());
 
 final AutoDisposeProvider<bool> kPrvIsDragging =
-    Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm.state).isDragging);
+    Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm).isDragging);
 
 class DragOverlayWrapper extends HookWidget {
   DragOverlayWrapper({
@@ -129,7 +130,7 @@ class _OverlayWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = useProvider(kPrvDragVm.state.select(((it) => it.data!)));
+    final data = useProvider(kPrvDragVm.select(((it) => it.data!)));
     return overlayBuilder(data); //todo fix
   }
 }

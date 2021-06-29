@@ -15,16 +15,16 @@ import '../model/double_tap_config.dart';
 import '../widgets.dart';
 
 final kPrvDoubleTapVm = StateNotifierProvider.autoDispose
-    .family<DoubleTapViewModel, ViewModelConfig>(
+    .family<DoubleTapViewModel, DoubleTapState, ViewModelConfig>(
         (ref, conf) => DoubleTapViewModel(conf));
 
 final _pDoubleTapEvent = Provider.autoDispose.family<String, ViewModelConfig>(
-    (ref, ltr) => ref.watch(kPrvDoubleTapVm(ltr).state).doubleTapEventKey);
+    (ref, ltr) => ref.watch(kPrvDoubleTapVm(ltr)).doubleTapEventKey);
 
 final kPrvDoubleTapVis = Provider.autoDispose.family<bool, ConfPair>((ref,
         confPair) =>
-    ref.watch(kPrvDoubleTapVm(confPair.vmConfL).state).continuesTapTime != 0 ||
-    ref.watch(kPrvDoubleTapVm(confPair.vmConfR).state).continuesTapTime != 0);
+    ref.watch(kPrvDoubleTapVm(confPair.vmConfL)).continuesTapTime != 0 ||
+    ref.watch(kPrvDoubleTapVm(confPair.vmConfR)).continuesTapTime != 0);
 
 class DoubleTapWidget extends HookWidget {
   const DoubleTapWidget({
@@ -38,7 +38,7 @@ class DoubleTapWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) => Visibility(
-        visible: useProvider(kPrvDragVm.state.select((it) => !it.isDragging)),
+        visible: useProvider(kPrvDragVm.select((it) => !it.isDragging)),
         child: Stack(
           children: [
             _BackDrop(config: config),
@@ -179,7 +179,6 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
                   CircularRevealAnimation(
                     animation: _animation,
                     centerOffset: useProvider(kPrvDoubleTapVm(widget.vmConf)
-                        .state
                         .select((it) => it.lastTap))?.toOffset(),
                     child: SizedBox.expand(
                       child: ColoredBox(
@@ -219,7 +218,7 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
       _fadeController.reset();
       // ignore: empty_catches
     } on TickerCanceled {}
-    context.read(kPrvDoubleTapVm(widget.vmConf)).notifyHideWidget(value);
+    context.read(kPrvDoubleTapVm(widget.vmConf).notifier).notifyHideWidget(value);
   }
 }
 
@@ -273,7 +272,7 @@ class _CustomChild extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final continuesTapTime = useProvider(
-        kPrvDoubleTapVm(vmConf).state.select((it) => it.continuesTapTime));
+        kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
     return builder(vmConf.lr, continuesTapTime);
   }
 }
@@ -324,7 +323,7 @@ class _DefaultChildText extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final tapCount = useProvider(
-        kPrvDoubleTapVm(vmConf).state.select((it) => it.continuesTapTime));
+        kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
     final text =
         textBuilder?.call(vmConf.lr, tapCount) ?? '${tapCount * 10} sec';
     return Text(
