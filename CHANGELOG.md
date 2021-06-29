@@ -35,3 +35,7 @@ initial release
 - apply null safety
 - remove unused native code
 - update dependencies
+
+## 2.0.1
+
+- update dependencies
