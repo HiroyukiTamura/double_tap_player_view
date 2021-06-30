@@ -102,7 +102,7 @@ class DoubleTapPlayerView extends StatelessWidget {
         ? details.localPosition.dx
         : details.localPosition.dx - centerX;
     final dy = details.localPosition.dy;
-    context.read(kPrvDoubleTapVm(vmConf)).noteTapPosition(dx, dy);
+    context.read(kPrvDoubleTapVm(vmConf).notifier).noteTapPosition(dx, dy);
   }
 
   void _onDoubleTap(BuildContext context, BoxConstraints constraints,

@@ -42,7 +42,9 @@ class _MyAppState extends State<MyApp> {
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: DoubleTapPlayerView(
-                doubleTapConfig: DoubleTapConfig.create(),
+                doubleTapConfig: DoubleTapConfig.create(onDoubleTap: (lr) {
+                  print('double tapped: ${lr}');
+                }),
                 swipeConfig: SwipeConfig.create(overlayBuilder: _overlay),
                 child: VideoPlayer(_controller),
               ),
