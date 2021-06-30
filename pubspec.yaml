@@ -12,13 +12,13 @@ dependencies:
     sdk: flutter
   flutter_hooks: ^0.17.0
   hooks_riverpod: ^0.14.0+4
-  uuid: ^3.0.1
-  freezed_annotation: ^0.14.0
+  uuid: ^3.0.4
+  freezed_annotation: ^0.14.2
   circular_reveal_animation: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.9.0
-  freezed: ^0.14.0
+  pedantic: ^1.11.1
+  freezed: ^0.14.2
   build_runner: ^2.0.5
