@@ -21,10 +21,10 @@ final kPrvDoubleTapVm = StateNotifierProvider.autoDispose
 final _pDoubleTapEvent = Provider.autoDispose.family<String, ViewModelConfig>(
     (ref, ltr) => ref.watch(kPrvDoubleTapVm(ltr)).doubleTapEventKey);
 
-final kPrvDoubleTapVis = Provider.autoDispose.family<bool, ConfPair>((ref,
-        confPair) =>
-    ref.watch(kPrvDoubleTapVm(confPair.vmConfL)).continuesTapTime != 0 ||
-    ref.watch(kPrvDoubleTapVm(confPair.vmConfR)).continuesTapTime != 0);
+final kPrvDoubleTapVis = Provider.autoDispose.family<bool, ConfPair>(
+    (ref, confPair) =>
+        ref.watch(kPrvDoubleTapVm(confPair.vmConfL)).continuesTapTime != 0 ||
+        ref.watch(kPrvDoubleTapVm(confPair.vmConfR)).continuesTapTime != 0);
 
 class DoubleTapWidget extends HookWidget {
   const DoubleTapWidget({
@@ -218,7 +218,9 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
       _fadeController.reset();
       // ignore: empty_catches
     } on TickerCanceled {}
-    context.read(kPrvDoubleTapVm(widget.vmConf).notifier).notifyHideWidget(value);
+    context
+        .read(kPrvDoubleTapVm(widget.vmConf).notifier)
+        .notifyHideWidget(value);
   }
 }
 

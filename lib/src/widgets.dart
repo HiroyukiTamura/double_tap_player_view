@@ -107,18 +107,18 @@ class DoubleTapPlayerView extends StatelessWidget {
 
   void _onDoubleTap(BuildContext context, BoxConstraints constraints,
       DoubleTapConfig doubleTapConfig) {
-    final lastTapTimeL = context
-        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfL))
-        .lastTapTime;
-    final lastTapTimeR = context
-        .read(kPrvDoubleTapVm(doubleTapConfig.vmConfR))
-        .lastTapTime;
+    final lastTapTimeL =
+        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfL)).lastTapTime;
+    final lastTapTimeR =
+        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfR)).lastTapTime;
     final vmConf = lastTapTimeL < lastTapTimeR
         ? doubleTapConfig.vmConfR
         : doubleTapConfig.vmConfL;
     final lr = lastTapTimeL < lastTapTimeR ? Lr.RIGHT : Lr.LEFT;
 
-    context.read(kPrvDoubleTapVm(vmConf).notifier).notifyTap(constraints.maxWidth);
+    context
+        .read(kPrvDoubleTapVm(vmConf).notifier)
+        .notifyTap(constraints.maxWidth);
     doubleTapConfig.onDoubleTap?.call(lr);
   }
 

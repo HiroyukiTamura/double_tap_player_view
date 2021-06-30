@@ -8,8 +8,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../double_tap_player_view.dart';
 import 'double_tap_animated.dart';
 
-final kPrvDragVm =
-    StateNotifierProvider<SwipeViewModel, SwipeModel>((ref) => SwipeViewModel());
+final kPrvDragVm = StateNotifierProvider<SwipeViewModel, SwipeModel>(
+    (ref) => SwipeViewModel());
 
 final AutoDisposeProvider<bool> kPrvIsDragging =
     Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm).isDragging);
