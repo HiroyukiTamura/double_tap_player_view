@@ -15,7 +15,7 @@ dependencies:
     path: ../
   flutter_hooks: ^0.17.0
   hooks_riverpod: ^0.14.0+4
-  video_player: ^2.1.6
+  video_player: ^2.1.12
 
 dev_dependencies:
   flutter_test:

@@ -21,4 +21,4 @@ dev_dependencies:
     sdk: flutter
   pedantic: ^1.11.1
   freezed: ^0.14.2
-  build_runner: ^2.0.5
+  build_runner: ^2.1.1
