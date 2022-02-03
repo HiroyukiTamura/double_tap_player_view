@@ -3,7 +3,6 @@ import 'package:double_tap_player_view/src/model/swipe_model.dart';
 import 'package:double_tap_player_view/src/viewmodel/swipe_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../double_tap_player_view.dart';
 import 'double_tap_animated.dart';
@@ -14,7 +13,7 @@ final kPrvDragVm = StateNotifierProvider<SwipeViewModel, SwipeModel>(
 final AutoDisposeProvider<bool> kPrvIsDragging =
     Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm).isDragging);
 
-class DragOverlayWrapper extends HookWidget {
+class DragOverlayWrapper extends HookConsumerWidget {
   DragOverlayWrapper({
     Key? key,
     required this.overlayBuilder,
@@ -25,10 +24,10 @@ class DragOverlayWrapper extends HookWidget {
   final ConfPair? confPair;
 
   @override
-  Widget build(BuildContext context) => Visibility(
+  Widget build(BuildContext context, WidgetRef ref) => Visibility(
         visible: confPair == null
             ? true
-            : !useProvider(kPrvDoubleTapVis(confPair!)), //todo fix
+            : !ref.watch(kPrvDoubleTapVis(confPair!)), //todo fix
         child: DragOverlay(
           overlayBuilder: overlayBuilder,
           backDrop: backDrop,
@@ -39,7 +38,7 @@ class DragOverlayWrapper extends HookWidget {
   final Color backDrop;
 }
 
-class DragOverlay extends StatefulWidget {
+class DragOverlay extends StatefulHookConsumerWidget {
   const DragOverlay({
     Key? key,
     required this.overlayBuilder,
@@ -53,7 +52,7 @@ class DragOverlay extends StatefulWidget {
   DragOverlayState createState() => DragOverlayState();
 }
 
-class DragOverlayState extends State<DragOverlay>
+class DragOverlayState extends ConsumerState<DragOverlay>
     with SingleTickerProviderStateMixin {
   static const _DURATION_R = Duration(milliseconds: 200);
   late AnimationController _ac;
@@ -80,21 +79,20 @@ class DragOverlayState extends State<DragOverlay>
   }
 
   @override
-  Widget build(BuildContext context) => ProviderListener(
-        onChange: _onChange,
-        provider: kPrvIsDragging,
-        child: FadeTransition(
-          opacity: _animation,
-          child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: widget.backDrop,
-            child: _DragOverlayContentWrapper(
-              overlayBuilder: widget.overlayBuilder,
-            ),
-          ),
+  Widget build(BuildContext context) {
+    ref.listen<bool>(kPrvIsDragging, (previous, next) => _onChange(context, next));
+    return FadeTransition(
+      opacity: _animation,
+      child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: widget.backDrop,
+        child: _DragOverlayContentWrapper(
+          overlayBuilder: widget.overlayBuilder,
         ),
-      );
+      ),
+    );
+  }
 
   void _onChange(BuildContext context, bool isDragging) {
     if (isDragging) {
@@ -106,21 +104,21 @@ class DragOverlayState extends State<DragOverlay>
   }
 }
 
-class _DragOverlayContentWrapper extends HookWidget {
+class _DragOverlayContentWrapper extends HookConsumerWidget {
   const _DragOverlayContentWrapper({required this.overlayBuilder});
 
   final SwipeOverlayBuilder overlayBuilder;
 
   @override
-  Widget build(BuildContext context) => Visibility(
-        visible: useProvider(kPrvIsDragging),
+  Widget build(BuildContext context, WidgetRef ref) => Visibility(
+        visible: ref.watch(kPrvIsDragging),
         child: _OverlayWidget(
           overlayBuilder: overlayBuilder,
         ),
       );
 }
 
-class _OverlayWidget extends HookWidget {
+class _OverlayWidget extends HookConsumerWidget {
   const _OverlayWidget({
     Key? key,
     required this.overlayBuilder,
@@ -129,8 +127,8 @@ class _OverlayWidget extends HookWidget {
   final SwipeOverlayBuilder overlayBuilder;
 
   @override
-  Widget build(BuildContext context) {
-    final data = useProvider(kPrvDragVm.select(((it) => it.data!)));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(kPrvDragVm.select(((it) => it.data!)));
     return overlayBuilder(data); //todo fix
   }
 }

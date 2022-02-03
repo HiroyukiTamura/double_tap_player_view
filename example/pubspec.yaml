@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
   double_tap_player_view:
     path: ../
-  flutter_hooks: ^0.17.0
-  hooks_riverpod: ^0.14.0+4
+  flutter_hooks:
+  hooks_riverpod:
   video_player: ^2.1.12
 
 dev_dependencies:

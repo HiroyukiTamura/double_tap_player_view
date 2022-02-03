@@ -1,6 +1,6 @@
 name: double_tap_player_view
 description: a widget to handle fast forward/rewind behavior by double tap and horizontal drag like a video player.
-version: 2.0.1
+version: 2.0.2
 homepage: https://github.com/HiroyukTamura/double_tap_player_view
 repository: https://github.com/HiroyukTamura/double_tap_player_view
 
@@ -10,15 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_hooks: ^0.17.0
-  hooks_riverpod: ^0.14.0+4
+  flutter_hooks: ^0.18.2
+  hooks_riverpod: ^1.0.3
   uuid: ^3.0.4
-  freezed_annotation: ^0.14.2
+  freezed_annotation: ^1.1.0
   circular_reveal_animation: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic: ^1.11.1
-  freezed: ^0.14.2
+  freezed: ^1.1.1
   build_runner: ^2.1.1

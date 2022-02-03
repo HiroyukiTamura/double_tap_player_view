@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../double_tap_player_view.dart';
 import 'double_tap_model.dart';
-import '../widgets.dart';
-import 'package:flutter/widgets.dart';
 
 /// widget config for [DoubleTapPlayerView] about double tap event
 class DoubleTapConfig {
