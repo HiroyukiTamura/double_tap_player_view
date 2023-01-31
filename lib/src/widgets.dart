@@ -1,12 +1,12 @@
 import 'package:double_tap_player_view/src/model/double_tap_config.dart';
-import 'package:double_tap_player_view/src/ui/double_tap_animated.dart';
+import 'package:double_tap_player_view/src/model/lr.dart';
 import 'package:double_tap_player_view/src/model/swipe_config.dart';
+import 'package:double_tap_player_view/src/model/swipe_data.dart';
+import 'package:double_tap_player_view/src/ui/double_tap_animated.dart';
 import 'package:double_tap_player_view/src/ui/horizontal_drag_detector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'model/lr.dart';
-import 'model/swipe_data.dart';
 
 /// Signature of callback that have horizontal tap position
 typedef OnDragStartCallback = void Function(double dx);
@@ -28,14 +28,14 @@ typedef DoubleTapCallback = void Function(Lr lr);
 
 /// widget to detect double tap and horizontal drag.
 /// this widget is usual to handle fast forward/rewind behavior like a video player.
-class DoubleTapPlayerView extends StatelessWidget {
-  DoubleTapPlayerView({
+class DoubleTapPlayerView extends HookConsumerWidget {
+  const DoubleTapPlayerView({
     Key? key,
     this.doubleTapConfig,
     this.child,
     this.swipeConfig,
-  })  : enabledDoubleTap = doubleTapConfig != null,
-        enabledSwipe = swipeConfig != null;
+  }) : enabledDoubleTap = doubleTapConfig != null,
+        enabledSwipe = swipeConfig != null, super(key: key);
 
   final DoubleTapConfig? doubleTapConfig;
   final SwipeConfig? swipeConfig;
@@ -45,7 +45,7 @@ class DoubleTapPlayerView extends StatelessWidget {
   final bool enabledSwipe;
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context, WidgetRef ref) => Stack(
         children: [
           child,
           LayoutBuilder(
@@ -54,22 +54,22 @@ class DoubleTapPlayerView extends StatelessWidget {
                 behavior: HitTestBehavior.translucent,
                 onDoubleTapDown: enabledDoubleTap
                     ? (details) => _onDoubleTapDown(
-                        context, constrains, doubleTapConfig!, details)
+                        ref, constrains, doubleTapConfig!, details)
                     : null,
                 onDoubleTap: enabledDoubleTap
-                    ? () => _onDoubleTap(context, constrains, doubleTapConfig!)
+                    ? () => _onDoubleTap(ref, constrains, doubleTapConfig!)
                     : null,
                 onHorizontalDragStart: enabledSwipe
-                    ? (details) => _onDragStart(context, details, swipeConfig!)
+                    ? (details) => _onDragStart(ref, details, swipeConfig!)
                     : null,
                 onHorizontalDragUpdate: enabledSwipe
-                    ? (details) => _onDragUpdate(context, details, swipeConfig!)
+                    ? (details) => _onDragUpdate(ref, details, swipeConfig!)
                     : null,
                 onHorizontalDragCancel: enabledSwipe
-                    ? () => _onDragCancel(context, swipeConfig!)
+                    ? () => _onDragCancel(ref, swipeConfig!)
                     : null,
                 onHorizontalDragEnd: enabledSwipe
-                    ? (details) => _onDragEnd(context, details, swipeConfig!)
+                    ? (details) => _onDragEnd(ref, details, swipeConfig!)
                     : null,
                 child: Stack(
                   children: [
@@ -92,7 +92,7 @@ class DoubleTapPlayerView extends StatelessWidget {
         ].whereNonNull(),
       );
 
-  static void _onDoubleTapDown(BuildContext context, BoxConstraints constraints,
+  static void _onDoubleTapDown(WidgetRef ref, BoxConstraints constraints,
       DoubleTapConfig doubleTapConfig, TapDownDetails details) {
     final centerX = constraints.maxWidth / 2;
     final vmConf = details.localPosition.dx < centerX
@@ -102,48 +102,46 @@ class DoubleTapPlayerView extends StatelessWidget {
         ? details.localPosition.dx
         : details.localPosition.dx - centerX;
     final dy = details.localPosition.dy;
-    context.read(kPrvDoubleTapVm(vmConf).notifier).noteTapPosition(dx, dy);
+    ref.read(kPrvDoubleTapVm(vmConf).notifier).noteTapPosition(dx, dy);
   }
 
-  void _onDoubleTap(BuildContext context, BoxConstraints constraints,
+  void _onDoubleTap(WidgetRef ref, BoxConstraints constraints,
       DoubleTapConfig doubleTapConfig) {
     final lastTapTimeL =
-        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfL)).lastTapTime;
+        ref.read(kPrvDoubleTapVm(doubleTapConfig.vmConfL)).lastTapTime;
     final lastTapTimeR =
-        context.read(kPrvDoubleTapVm(doubleTapConfig.vmConfR)).lastTapTime;
+        ref.read(kPrvDoubleTapVm(doubleTapConfig.vmConfR)).lastTapTime;
     final vmConf = lastTapTimeL < lastTapTimeR
         ? doubleTapConfig.vmConfR
         : doubleTapConfig.vmConfL;
     final lr = lastTapTimeL < lastTapTimeR ? Lr.RIGHT : Lr.LEFT;
 
-    context
-        .read(kPrvDoubleTapVm(vmConf).notifier)
-        .notifyTap(constraints.maxWidth);
+    ref.read(kPrvDoubleTapVm(vmConf).notifier).notifyTap(constraints.maxWidth);
     doubleTapConfig.onDoubleTap?.call(lr);
   }
 
   static void _onDragStart(
-      BuildContext context, DragStartDetails details, SwipeConfig conf) {
+      WidgetRef ref, DragStartDetails details, SwipeConfig conf) {
     final dx = details.globalPosition.dx;
-    context.read(kPrvDragVm.notifier).setStart(dx);
+    ref.read(kPrvDragVm.notifier).setStart(dx);
     conf.onDragStart?.call(dx);
   }
 
   static void _onDragUpdate(
-      BuildContext context, DragUpdateDetails details, SwipeConfig conf) {
-    context.read(kPrvDragVm.notifier).update(details.globalPosition.dx);
-    conf.onDragUpdate?.call(context.read(kPrvDragVm).data);
+      WidgetRef ref, DragUpdateDetails details, SwipeConfig conf) {
+    ref.read(kPrvDragVm.notifier).update(details.globalPosition.dx);
+    conf.onDragUpdate?.call(ref.read(kPrvDragVm).data);
   }
 
-  static void _onDragCancel(BuildContext context, SwipeConfig swipeConfig) {
-    context.read(kPrvDragVm.notifier).clear();
+  static void _onDragCancel(WidgetRef ref, SwipeConfig swipeConfig) {
+    ref.read(kPrvDragVm.notifier).clear();
     swipeConfig.onDragCancel?.call();
   }
 
   static void _onDragEnd(
-      BuildContext context, DragEndDetails details, SwipeConfig swipeConfig) {
-    final data = context.read(kPrvDragVm).data?.copyWith();
-    context.read(kPrvDragVm.notifier).clear();
+      WidgetRef ref, DragEndDetails details, SwipeConfig swipeConfig) {
+    final data = ref.read(kPrvDragVm).data?.copyWith();
+    ref.read(kPrvDragVm.notifier).clear();
     swipeConfig.onDragEnd?.call(data);
   }
 }

@@ -1,6 +1,5 @@
 import 'package:double_tap_player_view/double_tap_player_view.dart';
 import 'package:flutter/material.dart';
-import 'package:double_tap_player_view/src/model/swipe_config.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player/video_player.dart';
 
@@ -23,7 +22,7 @@ class _MyAppState extends State<MyApp> {
         'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
       ..initialize().then((_) => setState(() {}));
     WidgetsBinding.instance
-        ?.addPostFrameCallback((_) async => _controller.play());
+        .addPostFrameCallback((_) async => _controller.play());
   }
 
   @override
@@ -43,7 +42,7 @@ class _MyAppState extends State<MyApp> {
               aspectRatio: 16 / 9,
               child: DoubleTapPlayerView(
                 doubleTapConfig: DoubleTapConfig.create(onDoubleTap: (lr) {
-                  print('double tapped: ${lr}');
+                  debugPrint('double tapped: $lr');
                 }),
                 swipeConfig: SwipeConfig.create(overlayBuilder: _overlay),
                 child: VideoPlayer(_controller),
@@ -55,10 +54,10 @@ class _MyAppState extends State<MyApp> {
 
   Widget _overlay(SwipeData data) {
     final dxDiff = (data.currentDx - data.startDx).toInt();
-    Duration diffDuration = Duration(seconds: dxDiff);
+    final diffDuration = Duration(seconds: dxDiff);
     final prefix = diffDuration.isNegative ? '-' : '+';
-    final positionText = '${prefix}${diffDuration.printDuration()}';
-    final aimedDuration = diffDuration + Duration(minutes: 5);
+    final positionText = '$prefix${diffDuration.printDuration()}';
+    final aimedDuration = diffDuration + const Duration(minutes: 5);
     final diffText = aimedDuration.printDuration();
 
     return Center(
@@ -72,7 +71,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             diffText,
             style: const TextStyle(
@@ -89,9 +88,9 @@ class _MyAppState extends State<MyApp> {
 extension on Duration {
   /// ref: https://stackoverflow.com/a/54775297/8183034
   String printDuration() {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(inMinutes.abs().remainder(60));
-    String twoDigitSeconds = twoDigits(inSeconds.abs().remainder(60));
-    return "$twoDigitMinutes:$twoDigitSeconds";
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final twoDigitMinutes = twoDigits(inMinutes.abs().remainder(60));
+    final twoDigitSeconds = twoDigits(inSeconds.abs().remainder(60));
+    return '$twoDigitMinutes:$twoDigitSeconds';
   }
 }

@@ -1,4 +1,5 @@
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
+import 'package:double_tap_player_view/double_tap_player_view.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_left_border_clipper.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_right_border_clipper.dart';
 import 'package:double_tap_player_view/src/model/conf_pair.dart';
@@ -9,10 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../double_tap_player_view.dart';
-import '../model/double_tap_config.dart';
-import '../widgets.dart';
 
 final kPrvDoubleTapVm = StateNotifierProvider.autoDispose
     .family<DoubleTapViewModel, DoubleTapState, ViewModelConfig>(
@@ -26,19 +23,19 @@ final kPrvDoubleTapVis = Provider.autoDispose.family<bool, ConfPair>(
         ref.watch(kPrvDoubleTapVm(confPair.vmConfL)).continuesTapTime != 0 ||
         ref.watch(kPrvDoubleTapVm(confPair.vmConfR)).continuesTapTime != 0);
 
-class DoubleTapWidget extends HookWidget {
+class DoubleTapWidget extends HookConsumerWidget {
   const DoubleTapWidget({
-    Key? key,
     required this.config,
     required this.enabledDrag,
+    Key? key,
   }) : super(key: key);
 
   final DoubleTapConfig config;
   final bool enabledDrag;
 
   @override
-  Widget build(BuildContext context) => Visibility(
-        visible: useProvider(kPrvDragVm.select((it) => !it.isDragging)),
+  Widget build(BuildContext context, WidgetRef ref) => Visibility(
+        visible: ref.watch(kPrvDragVm.select((it) => !it.isDragging)),
         child: Stack(
           children: [
             _BackDrop(config: config),
@@ -77,7 +74,7 @@ class DoubleTapWidget extends HookWidget {
       );
 }
 
-class _BackDrop extends HookWidget {
+class _BackDrop extends HookConsumerWidget {
   const _BackDrop({
     required this.config,
   });
@@ -85,9 +82,9 @@ class _BackDrop extends HookWidget {
   final DoubleTapConfig config;
 
   @override
-  Widget build(BuildContext context) => AnimatedOpacity(
+  Widget build(BuildContext context, WidgetRef ref) => AnimatedOpacity(
         duration: config.backDropAnimDuration,
-        opacity: useProvider(kPrvDoubleTapVis(config.confPair)) ? 1 : 0,
+        opacity: ref.watch(kPrvDoubleTapVis(config.confPair)) ? 1 : 0,
         child: SizedBox.expand(
           child: ColoredBox(
             color: config.backDrop,
@@ -96,7 +93,7 @@ class _BackDrop extends HookWidget {
       );
 }
 
-class _DoubleTapAnimated extends StatefulHookWidget {
+class _DoubleTapAnimated extends StatefulHookConsumerWidget {
   const _DoubleTapAnimated({
     required this.vmConf,
     required this.builder,
@@ -128,7 +125,7 @@ class _DoubleTapAnimated extends StatefulHookWidget {
   _DoubleTapAnimatedState createState() => _DoubleTapAnimatedState();
 }
 
-class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
+class _DoubleTapAnimatedState extends ConsumerState<_DoubleTapAnimated>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late AnimationController _fadeController;
@@ -164,42 +161,41 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
   }
 
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: ProviderListener(
-          onChange: _onChange,
-          provider: _pDoubleTapEvent(widget.vmConf),
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: ClipPath(
-              clipper: widget.vmConf.lr == Lr.LEFT
-                  ? OvalRightBorderClipper(curveHeight: widget.curveBank)
-                  : OvalLeftBorderClipper(curveHeight: widget.curveBank),
-              child: Stack(
-                children: [
-                  CircularRevealAnimation(
-                    animation: _animation,
-                    centerOffset: useProvider(kPrvDoubleTapVm(widget.vmConf)
-                        .select((it) => it.lastTap))?.toOffset(),
-                    child: SizedBox.expand(
-                      child: ColoredBox(
-                        color: widget.rippleColor,
-                      ),
+  Widget build(BuildContext context) {
+    ref.listen<String>(_pDoubleTapEvent(widget.vmConf), (previous, next) => _onChange(context, next));
+    return Expanded(
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: ClipPath(
+            clipper: widget.vmConf.lr == Lr.LEFT
+                ? OvalRightBorderClipper(curveHeight: widget.curveBank)
+                : OvalLeftBorderClipper(curveHeight: widget.curveBank),
+            child: Stack(
+              children: [
+                CircularRevealAnimation(
+                  animation: _animation,
+                  centerOffset: ref.watch(kPrvDoubleTapVm(widget.vmConf)
+                      .select((it) => it.lastTap))?.toOffset(),
+                  child: SizedBox.expand(
+                    child: ColoredBox(
+                      color: widget.rippleColor,
                     ),
                   ),
-                  _IconWithShade(
-                    vmConf: widget.vmConf,
-                    builder: widget.builder,
-                    ovalColor: widget.ovalColor,
-                    textBuilder: widget.labelBuilder,
-                    icon: widget.icon,
-                    textStyle: widget.labelStyle,
-                  ),
-                ],
-              ),
+                ),
+                _IconWithShade(
+                  vmConf: widget.vmConf,
+                  builder: widget.builder,
+                  ovalColor: widget.ovalColor,
+                  textBuilder: widget.labelBuilder,
+                  icon: widget.icon,
+                  textStyle: widget.labelStyle,
+                ),
+              ],
             ),
           ),
         ),
       );
+  }
 
   Future<void> _onChange(BuildContext context, String value) async {
     if (value == DoubleTapState.INITIAL_KEY) return;
@@ -218,21 +214,19 @@ class _DoubleTapAnimatedState extends State<_DoubleTapAnimated>
       _fadeController.reset();
       // ignore: empty_catches
     } on TickerCanceled {}
-    context
-        .read(kPrvDoubleTapVm(widget.vmConf).notifier)
-        .notifyHideWidget(value);
+    ref.read(kPrvDoubleTapVm(widget.vmConf).notifier).notifyHideWidget(value);
   }
 }
 
 class _IconWithShade extends HookWidget {
   const _IconWithShade({
-    Key? key,
     required this.ovalColor,
     required this.vmConf,
     required this.builder,
     required this.icon,
     required this.textBuilder,
     required this.textStyle,
+    Key? key,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
@@ -261,31 +255,31 @@ class _IconWithShade extends HookWidget {
       );
 }
 
-class _CustomChild extends HookWidget {
+class _CustomChild extends HookConsumerWidget {
   const _CustomChild({
-    Key? key,
     required this.vmConf,
     required this.builder,
+    Key? key,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
   final TapCountWidgetBuilder builder;
 
   @override
-  Widget build(BuildContext context) {
-    final continuesTapTime = useProvider(
-        kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final continuesTapTime =
+        ref.watch(kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
     return builder(vmConf.lr, continuesTapTime);
   }
 }
 
 class _DefaultChild extends StatelessWidget {
   const _DefaultChild({
-    Key? key,
     required this.vmConf,
     required this.icon,
     required this.textBuilder,
     required this.textStyle,
+    Key? key,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
@@ -310,12 +304,12 @@ class _DefaultChild extends StatelessWidget {
       );
 }
 
-class _DefaultChildText extends HookWidget {
+class _DefaultChildText extends HookConsumerWidget {
   const _DefaultChildText({
-    Key? key,
     required this.textBuilder,
     required this.textStyle,
     required this.vmConf,
+    Key? key,
   }) : super(key: key);
 
   final TextBuilder? textBuilder;
@@ -323,9 +317,9 @@ class _DefaultChildText extends HookWidget {
   final ViewModelConfig vmConf;
 
   @override
-  Widget build(BuildContext context) {
-    final tapCount = useProvider(
-        kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tapCount =
+        ref.watch(kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
     final text =
         textBuilder?.call(vmConf.lr, tapCount) ?? '${tapCount * 10} sec';
     return Text(

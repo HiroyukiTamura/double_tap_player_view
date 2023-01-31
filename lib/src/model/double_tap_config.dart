@@ -1,29 +1,10 @@
+import 'package:double_tap_player_view/double_tap_player_view.dart';
 import 'package:double_tap_player_view/src/model/conf_pair.dart';
+import 'package:double_tap_player_view/src/model/double_tap_model.dart';
 import 'package:flutter/material.dart';
-
-import '../../double_tap_player_view.dart';
-import 'double_tap_model.dart';
-import '../widgets.dart';
-import 'package:flutter/widgets.dart';
 
 /// widget config for [DoubleTapPlayerView] about double tap event
 class DoubleTapConfig {
-  final ViewModelConfig vmConfL;
-  final ViewModelConfig vmConfR;
-  final TapCountWidgetBuilder? customWidgetBuilder;
-  final Widget iconRight;
-  final Widget iconLeft;
-  final TextBuilder? labelBuilder;
-  final TextStyle labelStyle;
-  final Duration rippleExpansionTime;
-  final Duration expansionHoldingTime;
-  final Duration fadeTime;
-  final Duration backDropAnimDuration;
-  final double curveBank;
-  final Color ovalColor;
-  final Color rippleColor;
-  final Color backDrop;
-  final DoubleTapCallback? onDoubleTap;
 
   DoubleTapConfig._({
     required this.vmConfL,
@@ -100,6 +81,22 @@ class DoubleTapConfig {
       backDrop: backDrop,
     );
   }
+  final ViewModelConfig vmConfL;
+  final ViewModelConfig vmConfR;
+  final TapCountWidgetBuilder? customWidgetBuilder;
+  final Widget iconRight;
+  final Widget iconLeft;
+  final TextBuilder? labelBuilder;
+  final TextStyle labelStyle;
+  final Duration rippleExpansionTime;
+  final Duration expansionHoldingTime;
+  final Duration fadeTime;
+  final Duration backDropAnimDuration;
+  final double curveBank;
+  final Color ovalColor;
+  final Color rippleColor;
+  final Color backDrop;
+  final DoubleTapCallback? onDoubleTap;
 
   ConfPair get confPair => ConfPair(vmConfR, vmConfL);
 }
