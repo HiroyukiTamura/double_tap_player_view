@@ -29,13 +29,13 @@ typedef DoubleTapCallback = void Function(Lr lr);
 /// widget to detect double tap and horizontal drag.
 /// this widget is usual to handle fast forward/rewind behavior like a video player.
 class DoubleTapPlayerView extends HookConsumerWidget {
-  DoubleTapPlayerView({
+  const DoubleTapPlayerView({
+    Key? key,
     this.doubleTapConfig,
     this.child,
     this.swipeConfig,
-    Key? key,
   }) : enabledDoubleTap = doubleTapConfig != null,
-        enabledSwipe = swipeConfig != null;
+        enabledSwipe = swipeConfig != null, super(key: key);
 
   final DoubleTapConfig? doubleTapConfig;
   final SwipeConfig? swipeConfig;
