@@ -1,12 +1,12 @@
 import 'package:double_tap_player_view/src/model/double_tap_config.dart';
-import 'package:double_tap_player_view/src/ui/double_tap_animated.dart';
+import 'package:double_tap_player_view/src/model/lr.dart';
 import 'package:double_tap_player_view/src/model/swipe_config.dart';
+import 'package:double_tap_player_view/src/model/swipe_data.dart';
+import 'package:double_tap_player_view/src/ui/double_tap_animated.dart';
 import 'package:double_tap_player_view/src/ui/horizontal_drag_detector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'model/lr.dart';
-import 'model/swipe_data.dart';
 
 /// Signature of callback that have horizontal tap position
 typedef OnDragStartCallback = void Function(double dx);
@@ -30,11 +30,11 @@ typedef DoubleTapCallback = void Function(Lr lr);
 /// this widget is usual to handle fast forward/rewind behavior like a video player.
 class DoubleTapPlayerView extends HookConsumerWidget {
   DoubleTapPlayerView({
-    Key? key,
     this.doubleTapConfig,
     this.child,
     this.swipeConfig,
-  })  : enabledDoubleTap = doubleTapConfig != null,
+    Key? key,
+  }) : enabledDoubleTap = doubleTapConfig != null,
         enabledSwipe = swipeConfig != null;
 
   final DoubleTapConfig? doubleTapConfig;
@@ -116,9 +116,7 @@ class DoubleTapPlayerView extends HookConsumerWidget {
         : doubleTapConfig.vmConfL;
     final lr = lastTapTimeL < lastTapTimeR ? Lr.RIGHT : Lr.LEFT;
 
-    ref
-        .read(kPrvDoubleTapVm(vmConf).notifier)
-        .notifyTap(constraints.maxWidth);
+    ref.read(kPrvDoubleTapVm(vmConf).notifier).notifyTap(constraints.maxWidth);
     doubleTapConfig.onDoubleTap?.call(lr);
   }
 

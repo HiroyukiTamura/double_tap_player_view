@@ -1,14 +1,8 @@
+import 'package:double_tap_player_view/double_tap_player_view.dart';
 import 'package:flutter/material.dart';
-import '../../double_tap_player_view.dart';
 
 /// widget config for [DoubleTapPlayerView] about horizontal swipe event
 class SwipeConfig {
-  final OnDragCallback? onDragEnd;
-  final OnDragCallback? onDragUpdate;
-  final OnDragStartCallback? onDragStart;
-  final VoidCallback? onDragCancel;
-  final SwipeOverlayBuilder overlayBuilder;
-  final Color backDrop;
 
   SwipeConfig._({
     required this.onDragEnd,
@@ -22,11 +16,11 @@ class SwipeConfig {
   /// factory constructor of [SwipeConfig].
   /// [SwipeConfig] is the widget config for [DoubleTapPlayerView] about horizontal swipe event
   factory SwipeConfig.create({
+    required SwipeOverlayBuilder overlayBuilder,
     OnDragStartCallback? onSwipeStart,
     VoidCallback? onSwipeCancel,
     OnDragCallback? onSwipeEnd,
     OnDragCallback? onSwipeUpdate,
-    required SwipeOverlayBuilder overlayBuilder,
     Color backDrop = Colors.black45,
   }) =>
       SwipeConfig._(
@@ -37,4 +31,10 @@ class SwipeConfig {
         overlayBuilder: overlayBuilder,
         backDrop: backDrop,
       );
+  final OnDragCallback? onDragEnd;
+  final OnDragCallback? onDragUpdate;
+  final OnDragStartCallback? onDragStart;
+  final VoidCallback? onDragCancel;
+  final SwipeOverlayBuilder overlayBuilder;
+  final Color backDrop;
 }

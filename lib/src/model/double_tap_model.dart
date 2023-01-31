@@ -1,19 +1,18 @@
+import 'package:double_tap_player_view/src/model/lr.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
-import 'lr.dart';
 
 part 'double_tap_model.freezed.dart';
 
 @freezed
 class DoubleTapState with _$DoubleTapState {
-  static const INITIAL_KEY = 'INITIAL';
 
   const factory DoubleTapState({
     required int continuesTapTime,
-    Position? lastTap,
     required int lastTapTime,
     required String doubleTapEventKey,
+    Position? lastTap,
   }) = _DoubleTapState;
 
   factory DoubleTapState.initial() => const DoubleTapState(
@@ -23,9 +22,10 @@ class DoubleTapState with _$DoubleTapState {
       );
 
   const DoubleTapState._();
+  static const INITIAL_KEY = 'INITIAL';
 
   DoubleTapState appendDoubleTapEvent() => copyWith(
-        doubleTapEventKey: Uuid().v4(),
+        doubleTapEventKey: const Uuid().v4(),
         continuesTapTime: continuesTapTime + 1,
       );
 

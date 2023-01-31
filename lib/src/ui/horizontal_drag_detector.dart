@@ -1,11 +1,10 @@
+import 'package:double_tap_player_view/double_tap_player_view.dart';
 import 'package:double_tap_player_view/src/model/conf_pair.dart';
 import 'package:double_tap_player_view/src/model/swipe_model.dart';
+import 'package:double_tap_player_view/src/ui/double_tap_animated.dart';
 import 'package:double_tap_player_view/src/viewmodel/swipe_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../double_tap_player_view.dart';
-import 'double_tap_animated.dart';
 
 final kPrvDragVm = StateNotifierProvider<SwipeViewModel, SwipeModel>(
     (ref) => SwipeViewModel());
@@ -14,11 +13,11 @@ final AutoDisposeProvider<bool> kPrvIsDragging =
     Provider.autoDispose<bool>((ref) => ref.watch(kPrvDragVm).isDragging);
 
 class DragOverlayWrapper extends HookConsumerWidget {
-  DragOverlayWrapper({
-    Key? key,
+  const DragOverlayWrapper({
     required this.overlayBuilder,
     required this.backDrop,
     required this.confPair,
+    Key? key,
   }) : super(key: key);
 
   final ConfPair? confPair;
@@ -40,9 +39,9 @@ class DragOverlayWrapper extends HookConsumerWidget {
 
 class DragOverlay extends StatefulHookConsumerWidget {
   const DragOverlay({
-    Key? key,
     required this.overlayBuilder,
     required this.backDrop,
+    Key? key,
   }) : super(key: key);
 
   final SwipeOverlayBuilder overlayBuilder;
@@ -80,7 +79,8 @@ class DragOverlayState extends ConsumerState<DragOverlay>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<bool>(kPrvIsDragging, (previous, next) => _onChange(context, next));
+    ref.listen<bool>(
+        kPrvIsDragging, (previous, next) => _onChange(context, next));
     return FadeTransition(
       opacity: _animation,
       child: Container(
@@ -120,15 +120,15 @@ class _DragOverlayContentWrapper extends HookConsumerWidget {
 
 class _OverlayWidget extends HookConsumerWidget {
   const _OverlayWidget({
-    Key? key,
     required this.overlayBuilder,
+    Key? key,
   }) : super(key: key);
 
   final SwipeOverlayBuilder overlayBuilder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(kPrvDragVm.select(((it) => it.data!)));
+    final data = ref.watch(kPrvDragVm.select((it) => it.data!));
     return overlayBuilder(data); //todo fix
   }
 }

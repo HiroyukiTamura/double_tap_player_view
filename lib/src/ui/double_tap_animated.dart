@@ -1,4 +1,5 @@
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
+import 'package:double_tap_player_view/double_tap_player_view.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_left_border_clipper.dart';
 import 'package:double_tap_player_view/src/border_clipper/oval_right_border_clipper.dart';
 import 'package:double_tap_player_view/src/model/conf_pair.dart';
@@ -9,8 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../double_tap_player_view.dart';
 
 final kPrvDoubleTapVm = StateNotifierProvider.autoDispose
     .family<DoubleTapViewModel, DoubleTapState, ViewModelConfig>(
@@ -26,9 +25,9 @@ final kPrvDoubleTapVis = Provider.autoDispose.family<bool, ConfPair>(
 
 class DoubleTapWidget extends HookConsumerWidget {
   const DoubleTapWidget({
-    Key? key,
     required this.config,
     required this.enabledDrag,
+    Key? key,
   }) : super(key: key);
 
   final DoubleTapConfig config;
@@ -215,20 +214,19 @@ class _DoubleTapAnimatedState extends ConsumerState<_DoubleTapAnimated>
       _fadeController.reset();
       // ignore: empty_catches
     } on TickerCanceled {}
-    ref.read(kPrvDoubleTapVm(widget.vmConf).notifier)
-        .notifyHideWidget(value);
+    ref.read(kPrvDoubleTapVm(widget.vmConf).notifier).notifyHideWidget(value);
   }
 }
 
 class _IconWithShade extends HookWidget {
   const _IconWithShade({
-    Key? key,
     required this.ovalColor,
     required this.vmConf,
     required this.builder,
     required this.icon,
     required this.textBuilder,
     required this.textStyle,
+    Key? key,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
@@ -259,9 +257,9 @@ class _IconWithShade extends HookWidget {
 
 class _CustomChild extends HookConsumerWidget {
   const _CustomChild({
-    Key? key,
     required this.vmConf,
     required this.builder,
+    Key? key,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
@@ -269,18 +267,19 @@ class _CustomChild extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final continuesTapTime = ref.watch(kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
+    final continuesTapTime =
+        ref.watch(kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
     return builder(vmConf.lr, continuesTapTime);
   }
 }
 
 class _DefaultChild extends StatelessWidget {
   const _DefaultChild({
-    Key? key,
     required this.vmConf,
     required this.icon,
     required this.textBuilder,
     required this.textStyle,
+    Key? key,
   }) : super(key: key);
 
   final ViewModelConfig vmConf;
@@ -307,10 +306,10 @@ class _DefaultChild extends StatelessWidget {
 
 class _DefaultChildText extends HookConsumerWidget {
   const _DefaultChildText({
-    Key? key,
     required this.textBuilder,
     required this.textStyle,
     required this.vmConf,
+    Key? key,
   }) : super(key: key);
 
   final TextBuilder? textBuilder;
@@ -319,8 +318,8 @@ class _DefaultChildText extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tapCount = ref.watch(
-        kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
+    final tapCount =
+        ref.watch(kPrvDoubleTapVm(vmConf).select((it) => it.continuesTapTime));
     final text =
         textBuilder?.call(vmConf.lr, tapCount) ?? '${tapCount * 10} sec';
     return Text(
